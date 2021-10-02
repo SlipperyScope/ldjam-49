@@ -13,10 +13,14 @@ smoothing_enabled = true
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="Minimap" type="TextureRect" parent="HUD"]
-margin_left = 902.505
-margin_top = 467.984
-margin_right = 1406.5
-margin_bottom = 971.984
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -128.465
+margin_top = -128.701
+margin_right = 375.535
+margin_bottom = 375.299
 grow_horizontal = 0
 grow_vertical = 0
 rect_scale = Vector2( 0.2, 0.2 )
