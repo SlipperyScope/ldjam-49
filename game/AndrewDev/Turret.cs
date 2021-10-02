@@ -5,18 +5,48 @@ using System.Linq;
 
 public class Turret : Node2D
 {
-    const Boolean SlowMo = false;
+    const String BulletScenePath = "res://Scenes/Bullet.tscn";
+
     /// <summary>
     /// Speed of turret rotation in angles per second
     /// </summary>
     [Export]
     public Single RotationSpeed = 180f;
 
+    /// <summary>
+    /// Time between bursts
+    /// </summary>
+    [Export]
+    public Single FireCooldown = 0.5f;
+
+    /// <summary>
+    /// Number of shots per burst
+    /// </summary>
+    [Export]
+    public Int32 BurstSize = 1;
+
+    [Export]
+    public Single BurstInterval = 0.05f;
+
     public Node2D Base { get; private set; }
     public Node2D Gun { get; private set; }
-    private Label Output;
+    public Node2D Tip { get; private set; } 
 
-    private Int32 debugCount = 0;
+    private Timer ShootTimer;
+    private Timer BurstTimer;
+    private Boolean ReadyToFire = true;
+
+    private PackedScene BulletScene;
+
+    public override void _EnterTree()
+    {
+        ShootTimer = new Timer();
+        ShootTimer.Connect("timeout", this, nameof(CooldownComplete));
+        ShootTimer.WaitTime = FireCooldown;
+        AddChild(ShootTimer);
+
+        BulletScene = GD.Load<PackedScene>(BulletScenePath);
+    }
 
     /// <summary>
     /// Ready
@@ -26,7 +56,7 @@ public class Turret : Node2D
         RotationSpeed = (Single)(RotationSpeed * Math.PI / 180f);
         Base = GetNode<Node2D>("Base");
         Gun = GetNode<Node2D>("Gun");
-        Output = GetNode<Label>("/root/Andrew/Label");
+        Tip = Gun.GetNode<Node2D>("Tip");
     }
 
     /// <summary>
@@ -34,8 +64,6 @@ public class Turret : Node2D
     /// </summary>
     public override void _Process(Single delta)
     {
-        if (SlowMo && debugCount++ % 30 != 0) return;
-
         Aim(delta);
         Fire();
     }
@@ -87,6 +115,19 @@ public class Turret : Node2D
 
     private void Fire()
     {
+        if (ReadyToFire is false) return;
 
+        var bullet = BulletScene.Instance<Bullet>();
+        bullet.Rotation = Gun.GlobalRotation;
+        bullet.Velocity = (new Vector2(400f, 0)).Rotated(Gun.Rotation);
+        bullet.Position = Tip.GlobalPosition;
+        GetParent().AddChild(bullet);
+        ReadyToFire = false;
+        ShootTimer.Start();
+    }
+
+    private void CooldownComplete()
+    {
+        ReadyToFire = true;
     }
 }
