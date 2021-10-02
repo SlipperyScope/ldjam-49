@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Turret : Node2D
 {
@@ -41,15 +43,19 @@ public class Turret : Node2D
     private void Aim(Single delta, Boolean LimitRotationSpeed = true)
     {
         var target = GetTarget();
+        if (target is null) return;
+
+        var targetLocation = target.Position;
+
+        if (targetLocation == Position) return;
 
         if (LimitRotationSpeed is true)
         {
-            var angle = Gun.GetAngleTo(target);
+            var angle = Gun.GetAngleTo(targetLocation);
             var frameRotation = RotationSpeed * delta;
-            //Output.Text = $"Angle: {angle} frameSpeed: {frameRotation} Willhit: {Math.Abs(angle) < frameRotation} gunRot: {Gun.Rotation} nextRot: {(angle < 0f ? frameRotation : -frameRotation)}";
             if (Math.Abs(angle) < frameRotation)
             {
-                Gun.LookAt(target);
+                Gun.LookAt(targetLocation);
             }
             else
             {
@@ -58,13 +64,25 @@ public class Turret : Node2D
         }
         else
         {
-            Gun.LookAt(target);
+            Gun.LookAt(targetLocation);
         }
     }
 
-    private Vector2 GetTarget()
+    private Node2D GetTarget()
     {
-        return GetGlobalMousePosition();
+        var enemies = GetTree().GetNodesInGroup("Enemies");
+        List<Node2D> enemyList = new List<Node2D>();
+        foreach (var enemy in enemies)
+        {
+            if (enemy is Node2D)
+            {
+                enemyList.Add(enemy as Node2D);
+            }
+        }
+
+        var target = enemyList.OrderBy(enemy => Position.DistanceSquaredTo(enemy.Position)).FirstOrDefault();
+
+        return target;
     }
 
     private void Fire()
