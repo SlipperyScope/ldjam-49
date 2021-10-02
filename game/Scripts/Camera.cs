@@ -6,6 +6,7 @@ public class Camera : Node2D
     Camera2D camera;
     TextureRect minimap;
     Sprite map;
+    bool isDragging = false;
 
     public override void _Ready()
     {
@@ -19,12 +20,22 @@ public class Camera : Node2D
     // Signals are doodoo poopy ass and this only works because this signal is turned on in the editor
     public void _on_Minimap_gui_input(InputEvent evt) {
         if (evt is InputEventMouseButton ievt) {
-            GD.Print(ievt);
-            // Translate position within sprite to position within map
-            var scaleFactor = ievt.Position / minimap.GetRect().Size;
-            GD.Print("Moving?", ievt.Position, minimap.GetRect().Position, scaleFactor, map.GetRect().Size * scaleFactor);
-            this.Position = map.GetRect().Size * scaleFactor - map.GetRect().Size * new Vector2(0.5f, 0.5f);
+            moveToMinimapPosition(ievt.Position);
+            if (ievt.Pressed && !isDragging) isDragging = true;
+            if (!ievt.Pressed && isDragging) isDragging = false;
         }
+        if (evt is InputEventMouseMotion mevt) {
+            if (isDragging) {
+                GD.Print("motion", mevt.Position);
+                moveToMinimapPosition(mevt.Position);
+            }
+        }
+    }
+
+    public void moveToMinimapPosition(Vector2 position) {
+        // Translate position within sprite to position within map
+        var scaleFactor = position / minimap.GetRect().Size;
+        this.Position = map.GetRect().Size * scaleFactor - map.GetRect().Size * new Vector2(0.5f, 0.5f);
     }
 
     public void setCameraLimit(Sprite bg) {
