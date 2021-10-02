@@ -8,7 +8,7 @@ public class Turret : Node2D
     /// Speed of turret rotation in angles per second
     /// </summary>
     [Export]
-    public Single RotationSpeed = 20f;
+    public Single RotationSpeed = 180f;
 
     public Node2D Base { get; private set; }
     public Node2D Gun { get; private set; }
@@ -21,6 +21,7 @@ public class Turret : Node2D
     /// </summary>
     public override void _Ready()
     {
+        RotationSpeed = (Single)(RotationSpeed * Math.PI / 180f);
         Base = GetNode<Node2D>("Base");
         Gun = GetNode<Node2D>("Gun");
         Output = GetNode<Label>("/root/Andrew/Label");
