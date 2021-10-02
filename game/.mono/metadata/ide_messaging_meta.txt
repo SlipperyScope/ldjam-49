@@ -1,2 +1,2 @@
-﻿50391
-C:/Program Files/Godot_v3.3.4-stable_mono_win64/Godot_v3.3.4-stable_mono_win64.exe
+﻿51440
+C:/Program Files (x86)/Steam/steamapps/common/Godot Engine/godot.windows.opt.tools.64.exe
