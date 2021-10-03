@@ -1,36 +1,20 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://BeautifulArt/TurretBase.png" type="Texture" id=1]
-[ext_resource path="res://BeautifulArt/BasicGun.png" type="Texture" id=2]
-[ext_resource path="res://AndrewDev/Turret.cs" type="Script" id=3]
+[ext_resource path="res://Scenes/Turret.tscn" type="PackedScene" id=1]
 [ext_resource path="res://BeautifulArt/spider.png" type="Texture" id=4]
 [ext_resource path="res://AndrewDev/TempEnemy.cs" type="Script" id=5]
 
 [node name="Andrew" type="Node2D"]
+position = Vector2( 0, -0.222733 )
 
-[node name="Turret" type="Node2D" parent="."]
-position = Vector2( 504.304, 291.352 )
-scale = Vector2( 0.2, 0.2 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Base" type="Sprite" parent="Turret"]
-texture = ExtResource( 1 )
-offset = Vector2( 19.099, 20.34 )
-
-[node name="Gun" type="Sprite" parent="Turret"]
-texture = ExtResource( 2 )
-offset = Vector2( -28.971, 8.398 )
-
-[node name="Tip" type="Position2D" parent="Turret/Gun"]
-position = Vector2( 202.679, -3.3407 )
+[node name="Turret" parent="." instance=ExtResource( 1 )]
+position = Vector2( 936.77, 514.235 )
+scale = Vector2( 0.25, 0.25 )
 
 [node name="Label" type="Label" parent="."]
-margin_top = -0.840897
+margin_top = -2.62264
 margin_right = 1022.0
-margin_bottom = 49.1591
+margin_bottom = 47.3774
 text = "text
 "
 __meta__ = {
@@ -38,7 +22,7 @@ __meta__ = {
 }
 
 [node name="TempEnemy" type="Sprite" parent="."]
-position = Vector2( 67.7082, -123.835 )
+position = Vector2( 188.87, -73.9447 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 offset = Vector2( -42.629, -46.607 )
@@ -46,7 +30,7 @@ script = ExtResource( 5 )
 Velocity = Vector2( 20, 50 )
 
 [node name="TempEnemy2" type="Sprite" parent="."]
-position = Vector2( 625.411, -54.3448 )
+position = Vector2( 1192.02, -68.5992 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 offset = Vector2( -42.629, -46.607 )

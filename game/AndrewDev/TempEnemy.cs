@@ -10,7 +10,7 @@ public class TempEnemy : Sprite
     {
         LookAt(Position + Velocity);
         RotationDegrees += 90f;
-        AddToGroup("Enemies");
+        AddToGroup("Targetable");
     }
 
     public override void _Process(Single delta)
