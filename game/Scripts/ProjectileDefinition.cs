@@ -16,7 +16,7 @@ public class ProjectileDefinition : Node
     return new ProjectileDefinition(){
       damage = this.damage,
       speed = this.speed,
-      initRotation = this.initRotation,
+      initRotation = new DFloat(this.initRotation.min, this.initRotation.max),
       initPosition = this.initPosition,
       scale = this.scale,
       penetrating = this.penetrating,

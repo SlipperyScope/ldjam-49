@@ -14,8 +14,8 @@ public class AttackDefinition : Node
 
   public AttackDefinition Clone() {
     var clone = new AttackDefinition(){
-      shotDelay = this.shotDelay,
-      burstDelay = this.burstDelay,
+      shotDelay = new DFloat(this.shotDelay.min, this.shotDelay.max),
+      burstDelay = new DFloat(this.burstDelay.min, this.burstDelay.max),
       burstCount = this.burstCount,
       canHasHorn = this.canHasHorn,
     };
