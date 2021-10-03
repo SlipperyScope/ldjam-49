@@ -67,10 +67,10 @@ public class TurretController : Node2D
     {
         var definition = e.Definition;
         Gun.BurstSize = definition.burstCount;
-        Gun.BurstInterval = (Single)definition.burstDelay.Yield() / 1000f;
-        Gun.BurstCooldown = (Single)definition.shotDelay.Yield() / 1000f;
+        Gun.BurstInterval = definition.burstDelay;
+        Gun.BurstCooldown = definition.shotDelay;
         Gun.DoHorn = definition.canHasHorn;
-       // Gun.Projectiles = definition
+        Gun.Projectiles = definition.projectiles;
     }
 
     /// <summary>

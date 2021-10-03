@@ -32,12 +32,12 @@ public class FireController : Node2D
     /// <summary>
     /// Time between shots in a burst
     /// </summary>
-    public Single BurstInterval { get; set; } = 0.1f;
+    public DFloat BurstInterval { get; set; } = 0.1f;
 
     /// <summary>
     /// Time between bursts
     /// </summary>
-    public Single BurstCooldown { get; set; } = 0.4f;
+    public DFloat BurstCooldown { get; set; } = 0.4f;
 
     /// <summary>
     /// Instancable bullet Scene
@@ -54,7 +54,7 @@ public class FireController : Node2D
     /// </summary>
     public Boolean DoHorn { get; set; } = false;
 
-    public List<ProjectileDefinition> projectiles;
+    public List<ProjectileDefinition> Projectiles;
 
     /// <summary>
     /// Ready
@@ -78,12 +78,12 @@ public class FireController : Node2D
             NumberInBurst++;
             if (NumberInBurst >= BurstSize)
             {
-                NextShotTime = Time + BurstCooldown;
+                NextShotTime = Time + BurstCooldown / 1000f;
                 NumberInBurst = 0;
             }
             else
             {
-                NextShotTime = Time + BurstInterval;
+                NextShotTime = Time + BurstInterval / 1000f;
             }
         }
     }

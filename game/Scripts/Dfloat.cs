@@ -20,8 +20,12 @@ public class DFloat {
   public double Yield() {
     return GD.RandRange(this.min, this.max);
   }
+  public Single Yield_s() => (Single)Yield();
 
   public override string ToString() {
     return $"({this.min} to {this.max})";
   }
+
+  public static implicit operator DFloat(Single value) => new DFloat(value);
+  public static implicit operator Single(DFloat value) => value.Yield_s();
 }
