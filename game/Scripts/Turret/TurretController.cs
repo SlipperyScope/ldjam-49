@@ -39,7 +39,7 @@ public class TurretController : Node2D
     /// <summary>
     /// Max rotation speed of turret
     /// </summary>
-    public Single RotationSpeed { get; private set; } = 90f;
+    public Single RotationSpeed { get; private set; } = 180f;
 
     /// <summary>
     /// Current Target mode
@@ -56,6 +56,7 @@ public class TurretController : Node2D
     /// </summary>
     public override void _Ready()
     {
+        RotationSpeed = (Single)(RotationSpeed * Math.PI / 180f);
         Base = GetNode<Node2D>(BasePath);
         Gun = GetNode<FireController>(GunPath);
         var reducer = GetNode<AttackReducer>(AttackReducerPath);
@@ -98,7 +99,7 @@ public class TurretController : Node2D
         // TODO: Make this for not temp enemies
         if (Target as TempEnemy is null) return;
 
-        var forecastPosition = (Target as TempEnemy).Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / Gun.BulletSpeed);
+        var forecastPosition = (Target as TempEnemy).Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / (Gun.BulletSpeed * 0.8f));
         var angle = Gun.GetAngleTo(forecastPosition);
         var frameRotation = RotationSpeed * delta;
 
@@ -138,4 +139,5 @@ public class TurretController : Node2D
     /// <returns>Target nearest to the turret</returns>
     private Node2D NearestTarget() =>
         GetTargets().OrderBy(target => GlobalPosition.DistanceSquaredTo(target.GlobalPosition)).FirstOrDefault();
+
 }

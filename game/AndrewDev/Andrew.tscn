@@ -26,7 +26,6 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 offset = Vector2( -42.629, -46.607 )
 script = ExtResource( 5 )
-Velocity = Vector2( 20, 50 )
 
 [node name="TempEnemy2" type="Sprite" parent="."]
 position = Vector2( 1192.02, -68.5992 )
@@ -34,4 +33,3 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 offset = Vector2( -42.629, -46.607 )
 script = ExtResource( 5 )
-Velocity = Vector2( 0, 100 )

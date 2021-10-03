@@ -47,7 +47,7 @@ public class FireController : Node2D
     /// <summary>
     /// Bullet speed in u/s
     /// </summary>
-    public Single BulletSpeed { get; set; } = 400f;
+    public Single BulletSpeed { get; set; } = 800f;
 
     /// <summary>
     /// True to be horny
