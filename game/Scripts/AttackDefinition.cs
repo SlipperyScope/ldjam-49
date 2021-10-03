@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+public delegate void ProjectileApplier(ProjectileDefinition definition);
 
 public class AttackDefinition : Node
 {
@@ -16,6 +17,7 @@ public class AttackDefinition : Node
       shotDelay = this.shotDelay,
       burstDelay = this.burstDelay,
       burstCount = this.burstCount,
+      canHasHorn = this.canHasHorn,
     };
 
     this.projectiles.ForEach(p => {
@@ -23,6 +25,12 @@ public class AttackDefinition : Node
     });
 
     return clone;
+  }
+
+  public void EachProjectile(ProjectileApplier apply) {
+    foreach (var projectile in this.projectiles) {
+      apply(projectile);
+    }
   }
 
   public string Print() {

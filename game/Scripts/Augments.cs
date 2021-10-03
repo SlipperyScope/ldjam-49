@@ -25,8 +25,8 @@ public static class Augments {
   // Spawn patterns
   //
   public static Augment SpawnLine = new Augment(65, def => {
-    var spacing = 5f;
     if (def.projectiles.Count > 1) {
+      var spacing = 5f;
       var range = (def.projectiles.Count - 1) * spacing;
       var start = -range/2;
       for (int idx = 0; idx < def.projectiles.Count; idx++) {
@@ -35,10 +35,43 @@ public static class Augments {
     }
   });
 
+  public static Augment SpawnV = new Augment(70, def => {
+    if (def.projectiles.Count > 1) {
+      var angleRange = Math.PI / 2 * def.projectiles.Count / 5;
+      var angleStep = angleRange / def.projectiles.Count;
+
+      // Lol, no clue if this works. We'll see later I guess
+      for (int idx = 0; idx < def.projectiles.Count; idx++) {
+        def.projectiles[idx].initPosition = new Vector2(0, 0);
+        def.projectiles[idx].initRotation = (float)(-angleRange/2 + angleStep * idx);
+      }
+    }
+  });
+
+  public static Augment SpawnCircle = new Augment(70, def => {
+    if (def.projectiles.Count > 1) {
+      var angleRange = Math.PI / 2;
+      var angleStep = angleRange / def.projectiles.Count;
+
+      for (int idx = 0; idx < def.projectiles.Count; idx++) {
+        def.projectiles[idx].initPosition = new Vector2(0, 0);
+        def.projectiles[idx].initRotation = (float)(angleStep * idx);
+      }
+    }
+  });
+
   //
   // The one true augment
   //
   public static Augment Horn = new Augment(101, def => def.canHasHorn = true);
+
+  //
+  // Physical Attributes
+  //
+  public static Augment Big = new Augment(80, def => def.EachProjectile(p => p.scale *= 2));
+  public static Augment Fast = new Augment(80, def => def.EachProjectile(p => p.speed *= 3));
+  public static Augment Slow = new Augment(80, def => def.EachProjectile(p => p.speed /= 3));
+  public static Augment Penetrating = new Augment(80, def => def.EachProjectile(p => p.penetrating = true));
 
   private static void MakeProjectiles(AttackDefinition definition, int count) {
     for (int i = 0; i < count; i++) {
