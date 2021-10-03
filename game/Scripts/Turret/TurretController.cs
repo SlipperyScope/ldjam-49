@@ -55,7 +55,8 @@ public class TurretController : Area2D
     private Node2D Target;
 
     public Single MaxStability = 100f;
-    public Single CurrentStability = 100f;
+    public Single CurrentStability = 40f;
+    public Single RecoveryRate = 0.5f;
 
     public override void _EnterTree()
     {
@@ -91,6 +92,7 @@ public class TurretController : Area2D
     public override void _Process(Single delta)
     {
         Aim(delta);
+        Recover();
     }
 
     private void OnAreaEntered(Area2D other)
@@ -161,4 +163,9 @@ public class TurretController : Area2D
     private Node2D NearestTarget() =>
         GetTargets().OrderBy(target => GlobalPosition.DistanceSquaredTo(target.GlobalPosition)).FirstOrDefault();
 
+    private void Recover() {
+        if (this.CurrentStability < this.MaxStability) {
+            this.CurrentStability += Math.Min(this.RecoveryRate, this.MaxStability - this.CurrentStability);
+        }
+    }
 }
