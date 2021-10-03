@@ -9,7 +9,6 @@ position = Vector2( 0, -0.222733 )
 
 [node name="Turret" parent="." instance=ExtResource( 1 )]
 position = Vector2( 936.77, 514.235 )
-scale = Vector2( 0.25, 0.25 )
 
 [node name="Label" type="Label" parent="."]
 margin_top = -2.62264

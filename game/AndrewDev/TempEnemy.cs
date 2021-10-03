@@ -17,4 +17,14 @@ public class TempEnemy : Sprite
     {
         Position += Velocity * delta;
     }
+
+    /// <summary>
+    /// Estimated future position
+    /// </summary>
+    /// <param name="time">Time in seconds</param>
+    /// <returns>Position</returns>
+    public Vector2 Forecast(Single time)
+    {
+        return Position + Velocity * time;
+    }
 }

@@ -10,10 +10,12 @@
 script = ExtResource( 3 )
 
 [node name="Base" type="Sprite" parent="."]
+scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 1 )
 offset = Vector2( 16.034, 17.789 )
 
 [node name="Gun" type="Sprite" parent="."]
+scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 2 )
 offset = Vector2( -26.062, 9.194 )
 script = ExtResource( 4 )

@@ -7,6 +7,8 @@ public class Bullet : Node2D
 
     public Vector2 Velocity { get; set; }
 
+    public Node2D Target { get; set; }
+    
     private Sprite Sprite;
 
     /// <summary>
@@ -23,5 +25,15 @@ public class Bullet : Node2D
     public override void _Process(Single delta)
     {
         Position += Velocity * delta;
+    }
+
+    /// <summary>
+    /// Estimated future position
+    /// </summary>
+    /// <param name="time">Time in seconds</param>
+    /// <returns>Position</returns>
+    public Vector2 Forecast(Single time)
+    {
+        return ToGlobal(Position + Velocity * time);
     }
 }

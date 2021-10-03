@@ -21,7 +21,7 @@ public class FireController : Node2D
     /// <summary>
     /// Number of shots in a burst
     /// </summary>
-    public Int32 BurstSize { get; set; } = 7;
+    public Int32 BurstSize { get; set; } = 3;
     
     /// <summary>
     /// Number of shots fired in the current burst
@@ -31,12 +31,12 @@ public class FireController : Node2D
     /// <summary>
     /// Time between shots in a burst
     /// </summary>
-    public Single BurstInterval { get; set; } = 0.032486f;
+    public Single BurstInterval { get; set; } = 0.1f;
 
     /// <summary>
     /// Time between bursts
     /// </summary>
-    public Single BurstCooldown { get; set; } = 0.6675f;
+    public Single BurstCooldown { get; set; } = 0.4f;
 
     /// <summary>
     /// Instancable bullet Scene

@@ -44,6 +44,11 @@ public class TurretController : Node2D
 
     }
 
+    /// <summary>
+    /// Aims the turret
+    /// </summary>
+    /// <param name="delta">Time delta</param>
+    /// <param name="LimitRotationSpeed">Limit speed turret can rotate</param>
     private void Aim(Single delta, Boolean LimitRotationSpeed = true)
     {
         Target = Mode switch
@@ -54,26 +59,20 @@ public class TurretController : Node2D
             _ => throw new NotImplementedException(),
         };
 
-       //GD.Print($"Target: {Target}");
+        // TODO: Make this for not temp enemies
+        if (Target as TempEnemy is null) return;
 
-        if (Target is null) return;
+        var forecastPosition = (Target as TempEnemy).Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / Gun.BulletSpeed);
+        var angle = Gun.GetAngleTo(forecastPosition);
+        var frameRotation = RotationSpeed * delta;
 
-        if (LimitRotationSpeed is true)
+        if (LimitRotationSpeed is true && Math.Abs(angle) > frameRotation)
         {
-            var angle = Gun.GetAngleTo(Target.GlobalPosition);
-            var frameRotation = RotationSpeed * delta;
-            if (Math.Abs(angle) < frameRotation)
-            {
-                Gun.LookAt(Target.GlobalPosition);
-            }
-            else
-            {
-                Gun.Rotation -= angle < 0f ? frameRotation : -frameRotation;
-            }
+            Gun.Rotation -= angle < 0f ? frameRotation : -frameRotation;
         }
         else
         {
-            Gun.LookAt(Target.GlobalPosition);
+            Gun.LookAt(forecastPosition);
         }
     }
 
