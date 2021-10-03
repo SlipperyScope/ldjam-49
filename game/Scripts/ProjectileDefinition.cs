@@ -24,6 +24,6 @@ public class ProjectileDefinition : Node
   }
 
   public string Print() {
-    return $"Damage: {damage}, Speed: {speed}, InitRotation: {initRotation}, InitPosition [{initPosition.x},{initPosition.y}]";
+    return $"Damage: {damage}, Speed: {speed}, Scale: {scale}, Penetrating: {penetrating}, InitRotation: {initRotation}, InitPosition [{initPosition.x},{initPosition.y}]";
   }
 }

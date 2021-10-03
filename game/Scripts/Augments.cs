@@ -38,7 +38,7 @@ public static class Augments {
   public static Augment SpawnV = new Augment(70, def => {
     if (def.projectiles.Count > 1) {
       var angleRange = Math.PI / 2 * def.projectiles.Count / 5;
-      var angleStep = angleRange / def.projectiles.Count;
+      var angleStep = angleRange / (def.projectiles.Count - 1);
 
       // Lol, no clue if this works. We'll see later I guess
       for (int idx = 0; idx < def.projectiles.Count; idx++) {
@@ -50,7 +50,7 @@ public static class Augments {
 
   public static Augment SpawnCircle = new Augment(70, def => {
     if (def.projectiles.Count > 1) {
-      var angleRange = Math.PI / 2;
+      var angleRange = Math.PI * 2;
       var angleStep = angleRange / def.projectiles.Count;
 
       for (int idx = 0; idx < def.projectiles.Count; idx++) {
