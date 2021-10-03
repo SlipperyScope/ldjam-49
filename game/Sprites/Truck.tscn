@@ -24,10 +24,8 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Node2D" type="Node2D"]
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="Truck" type="AnimatedSprite"]
 rotation = 1.5708
 frames = SubResource( 1 )
-frame = 10
+frame = 7
 playing = true
