@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Bullet : Node2D
+public class Bullet : Area2D
 {
     const String SpritePath = "Sprite";
 
@@ -19,6 +19,12 @@ public class Bullet : Node2D
         set => Sprite.Rotation = value;
     }
 
+    public override void _EnterTree()
+    {
+        Connect("area_entered", this, nameof(OnAreaEntered));
+
+    }
+
     /// <summary>
     /// Ready
     /// </summary>
@@ -33,6 +39,18 @@ public class Bullet : Node2D
     public override void _Process(Single delta)
     {
         Position += Velocity * delta;
+        if (Position.x > 1920f || Position.x < -1920f || Position.y > 1080f || Position.y < -1080f)
+        {
+            QueueFree();
+        }
+    }
+
+    private void OnAreaEntered(Area2D other)
+    {
+        if (other is SeaAnemone && Penetrates is false)
+        {
+            QueueFree();
+        }
     }
 
     /// <summary>

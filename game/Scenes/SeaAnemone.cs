@@ -5,7 +5,7 @@ public class SeaAnemone : Area2D
 {
     const String ExplodePlayerPath = "ExplodeSound";
 
-    public AudioStreamPlayer ExplodePlayer;
+    public AudioStreamPlayer2D ExplodePlayer;
 
     public Vector2 Velocity { get; private set; }
 
@@ -29,7 +29,7 @@ public class SeaAnemone : Area2D
 
     public override void _Ready()
     {
-        ExplodePlayer = GetNode<AudioStreamPlayer>(ExplodePlayerPath);
+        ExplodePlayer = GetNode<AudioStreamPlayer2D>(ExplodePlayerPath);
         ExplodePlayer.Connect("finished", this, nameof(Sewercide));
         Position = NewTarget();
         TargetLocation = NewTarget();

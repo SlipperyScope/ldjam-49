@@ -26,12 +26,15 @@ position = Vector2( 1.91225, -0.0865937 )
 rotation = 1.5708
 scale = Vector2( 0.2, 0.2 )
 frames = SubResource( 2 )
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource( 3 )
 
-[node name="ExplodeSound" type="AudioStreamPlayer" parent="."]
+[node name="ExplodeSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 volume_db = -11.646
+max_distance = 1920.0
+attenuation = 2.14355
