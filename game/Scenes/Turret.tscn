@@ -19,3 +19,6 @@ offset = Vector2( 19.099, 20.34 )
 [node name="Gun" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 offset = Vector2( -28.971, 8.398 )
+
+[node name="Tip" type="Position2D" parent="Gun"]
+position = Vector2( 202.679, -3.3407 )
