@@ -97,9 +97,10 @@ public class TurretController : Node2D
         };
 
         // TODO: Make this for not temp enemies
-        if (Target as TempEnemy is null) return;
+        if (Target as TempEnemy is null && Target as SeaAnemone is null) return;
 
-        var forecastPosition = (Target as TempEnemy).Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / (Gun.BulletSpeed * 0.8f));
+        var forecastPosition = (Target as TempEnemy)?.Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / (Gun.BulletSpeed * 0.8f)) ?? (Target as SeaAnemone)?.Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / (Gun.BulletSpeed * 0.8f)) ?? Target.Position;
+
         var angle = Gun.GetAngleTo(forecastPosition);
         var frameRotation = RotationSpeed * delta;
 
