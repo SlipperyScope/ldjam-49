@@ -5,39 +5,31 @@ using System.Linq;
 
 public class TurretController : Area2D
 {
-    const String BulletScenePath = "res://Scenes/Bullet.tscn";
-
+    const String BulletScenePath = "res://Scenes/Bullet.tscn";
     const String BasePath = "Base";
     const String GunPath = "Gun";
     const String OuchPlayerPath = "Ouch";
+    const String DeadPlayerPath = "Dead";
 
     public AudioStreamPlayer OuchPlayer { get; private set; }
-
+    public AudioStreamPlayer DeadPlayer { get; private set; }
     /// <summary>
     /// Path to attackr educer
     /// </summary>
     [Export]
-    public NodePath AttackReducerPath { get; private set; }
-
+    public NodePath AttackReducerPath { get; private set; }
     /// <summary>
     /// Turret base
     /// </summary>
-    public Node2D Base { get; private set; }
-
+    public Node2D Base { get; private set; }
     /// <summary>
     /// Turret gun
     /// </summary>
-    public FireController Gun { get; private set; }
-
+    public FireController Gun { get; private set; }
     /// <summary>
     /// Turret target mode
     /// </summary>
-    public enum TargetMode
-    {
-        Nearest,
-        Strongest,
-        Deadest
-    }
+    public enum TargetMode    {        Nearest,        Strongest,        Deadest    }
 
     /// <summary>
     /// Max rotation speed of turret
@@ -66,33 +58,12 @@ public class TurretController : Area2D
     /// <summary>
     /// Ready
     /// </summary>
-    public override void _Ready()
-    {
-        OuchPlayer = GetNode<AudioStreamPlayer>(OuchPlayerPath);
-        RotationSpeed = (Single)(RotationSpeed * Math.PI / 180f);
-        Base = GetNode<Node2D>(BasePath);
-        Gun = GetNode<FireController>(GunPath);
-        var reducer = GetNode<AttackReducer>(AttackReducerPath);
-        reducer.AttackDefinitionUpdated += Reducer_AttackDefinitionUpdated;
-    }
-
-    private void Reducer_AttackDefinitionUpdated(System.Object sender, AttackDefinitionUpdatedArgs e)
-    {
-        var definition = e.Definition;
-        Gun.BurstSize = definition.burstCount;
-        Gun.BurstInterval = definition.burstDelay;
-        Gun.BurstCooldown = definition.shotDelay;
-        Gun.DoHorn = definition.canHasHorn;
-        Gun.Projectiles = definition.projectiles;
-    }
-
-    /// <summary>
-    /// Process
-    /// </summary>
+    public override void _Ready()    {        RotationSpeed = (Single)(RotationSpeed * Math.PI / 180f);
+        OuchPlayer = GetNode<AudioStreamPlayer>(OuchPlayerPath);        DeadPlayer = GetNode<AudioStreamPlayer>(DeadPlayerPath);        Base = GetNode<Node2D>(BasePath);        Gun = GetNode<FireController>(GunPath);        var reducer = GetNode<AttackReducer>(AttackReducerPath);        reducer.AttackDefinitionUpdated += Reducer_AttackDefinitionUpdated;    }    private void Reducer_AttackDefinitionUpdated(System.Object sender, AttackDefinitionUpdatedArgs e)    {        var definition = e.Definition;        Gun.BurstSize = definition.burstCount;        Gun.BurstInterval = definition.burstDelay;        Gun.BurstCooldown = definition.shotDelay;        Gun.DoHorn = definition.canHasHorn;        Gun.Projectiles = definition.projectiles;    }    /// <summary>    /// Process    /// </summary>
     public override void _Process(Single delta)
     {
         Aim(delta);
-        Recover();
+        Recover(delta);
     }
 
     private void OnAreaEntered(Area2D other)
@@ -156,16 +127,14 @@ public class TurretController : Area2D
         return targetsList;
     }
 
-    /// <summary>
-    /// Nearest target
-    /// </summary>
-    /// <returns>Target nearest to the turret</returns>
+    public void AddStability(Single value)    {        CurrentStability += value;        if (CurrentStability <= 0)        {            GD.Print($"omglookimdead");            GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set", "disabled", true);            DeadPlayer.Play(0.1f);            Visible = false;        }        else if (CurrentStability > MaxStability)        {            CurrentStability = MaxStability;        }        GD.Print($"hit");    }
+    /// <summary>    /// Nearest target    /// </summary>    /// <returns>Target nearest to the turret</returns>
     private Node2D NearestTarget() =>
         GetTargets().OrderBy(target => GlobalPosition.DistanceSquaredTo(target.GlobalPosition)).FirstOrDefault();
 
-    private void Recover() {
+    private void Recover(Single delta) {
         if (this.CurrentStability < this.MaxStability) {
-            this.CurrentStability += Math.Min(this.RecoveryRate, this.MaxStability - this.CurrentStability);
+            this.CurrentStability += Math.Min(this.RecoveryRate * delta, this.MaxStability - this.CurrentStability);
         }
     }
 }

@@ -17,6 +17,8 @@ public class SeaAnemone : Area2D
 
     public Int32 HP = 4;
 
+    public Single StabilityCost = 10f;
+
     public Vector2 TargetLocation
     {
         get => _TargetLocation;
@@ -58,6 +60,7 @@ public class SeaAnemone : Area2D
         switch (other)
         {
             case TurretController turret:
+                turret.AddStability(-StabilityCost);
                 Damage(HP);
                 break;
             case SeaAnemone enemy:

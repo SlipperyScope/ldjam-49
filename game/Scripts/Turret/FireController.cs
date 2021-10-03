@@ -16,6 +16,8 @@ public class FireController : Node2D
 
     public Node2D Tip { get; private set; }
 
+    public TurretController Controller { get; private set; }
+
     /// <summary>
     /// Time since ready in seconds
     /// </summary>
@@ -75,6 +77,7 @@ public class FireController : Node2D
     {
         Tip = GetNode<Node2D>(TipPath);
         BulletScene = GD.Load<PackedScene>(BulletScenePath);
+        Controller = GetParent<TurretController>();
     }
 
     /// <summary>
