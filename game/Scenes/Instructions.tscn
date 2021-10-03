@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scripts/SceneScripts/Instructions.cs" type="Script" id=2]
+
+[node name="Instructions" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Back" type="Button" parent="."]
+margin_left = 36.5103
+margin_top = 23.811
+margin_right = 319.51
+margin_bottom = 127.811
+custom_fonts/font = ExtResource( 1 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
