@@ -11,5 +11,5 @@ dest_files=[ "res://.import/Alpha_Horn_Sound.mp3-7d71cb8adeb580d7c82aa96aa91fe25
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
