@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Sprites/Placeholders/Square.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Camera.cs" type="Script" id=2]
+[ext_resource path="res://Scenes/HUDButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://BeautifulArt/HUD/Icons/2Bullet.png" type="Texture" id=4]
+[ext_resource path="res://BeautifulArt/HUD/Icons/Horn.png" type="Texture" id=5]
+[ext_resource path="res://BeautifulArt/HUD/Icons/3Shot.png" type="Texture" id=6]
+[ext_resource path="res://BeautifulArt/HUD/Icons/5Shot.png" type="Texture" id=7]
+[ext_resource path="res://BeautifulArt/HUD/Icons/catIcon.png" type="Texture" id=8]
+[ext_resource path="res://BeautifulArt/HUD/Icons/RandomShot.png" type="Texture" id=9]
+[ext_resource path="res://BeautifulArt/HUD/Icons/3Bullet.png" type="Texture" id=10]
+[ext_resource path="res://BeautifulArt/HUD/Icons/4Bullet.png" type="Texture" id=11]
+[ext_resource path="res://BeautifulArt/HUD/Icons/Porculion.png" type="Texture" id=12]
 
 [node name="Camera" type="Node2D"]
 script = ExtResource( 2 )
@@ -28,5 +38,68 @@ texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Deuce" parent="HUD" instance=ExtResource( 3 )]
+texture = ExtResource( 4 )
+augment = "Deuce"
+
+[node name="Trey" parent="HUD" instance=ExtResource( 3 )]
+margin_left = 88.9221
+margin_right = 188.922
+margin_bottom = 120.0
+texture = ExtResource( 10 )
+augment = "Trey"
+
+[node name="Quad" parent="HUD" instance=ExtResource( 3 )]
+margin_top = 88.9222
+margin_right = 120.0
+margin_bottom = 188.922
+texture = ExtResource( 11 )
+augment = "Quad"
+
+[node name="Porcupine" parent="HUD" instance=ExtResource( 3 )]
+margin_left = 88.9221
+margin_top = 88.9222
+margin_right = 188.922
+margin_bottom = 188.922
+texture = ExtResource( 12 )
+augment = "Porcupine"
+
+[node name="TripleShot" parent="HUD" instance=ExtResource( 3 )]
+margin_top = 159.343
+margin_right = 120.0
+margin_bottom = 259.343
+texture = ExtResource( 6 )
+augment = "TripleShot"
+
+[node name="FiveShot" parent="HUD" instance=ExtResource( 3 )]
+margin_left = 88.9221
+margin_top = 159.343
+margin_right = 188.922
+margin_bottom = 259.343
+texture = ExtResource( 7 )
+augment = "FiveShot"
+
+[node name="KittenPurr" parent="HUD" instance=ExtResource( 3 )]
+margin_top = 227.765
+margin_right = 120.0
+margin_bottom = 327.765
+texture = ExtResource( 8 )
+augment = "KittenPurr"
+
+[node name="RandoShot" parent="HUD" instance=ExtResource( 3 )]
+margin_left = 88.9221
+margin_top = 227.765
+margin_right = 188.922
+margin_bottom = 327.765
+texture = ExtResource( 9 )
+augment = "RandoShot"
+
+[node name="Horn" parent="HUD" instance=ExtResource( 3 )]
+margin_top = 297.686
+margin_right = 120.0
+margin_bottom = 397.686
+texture = ExtResource( 5 )
+augment = "Horn"
 
 [connection signal="gui_input" from="HUD/Minimap" to="." method="_on_Minimap_gui_input"]
