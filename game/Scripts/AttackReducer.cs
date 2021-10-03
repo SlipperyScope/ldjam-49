@@ -39,7 +39,6 @@ public class AttackReducer : Node
 
         augmenters.Sort((x, y) => x.priority.CompareTo(y.priority));
         foreach(var augmenter in augmenters) {
-            if (DoDebug) GD.Print(augmenter.priority);
             augmenter.apply(this.end);
         }
 
@@ -49,11 +48,11 @@ public class AttackReducer : Node
         AttackDefinitionUpdated?.Invoke(this, new AttackDefinitionUpdatedArgs(end.Clone()));
     }
 
-    
+
 }
 public class AttackDefinitionUpdatedArgs : EventArgs
 {
-    public AttackDefinition Definition { get; private set; } 
+    public AttackDefinition Definition { get; private set; }
     public AttackDefinitionUpdatedArgs(AttackDefinition definition)
     {
         Definition = definition;

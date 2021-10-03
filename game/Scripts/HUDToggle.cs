@@ -26,8 +26,10 @@ public class HUDToggle : TextureRect
                 this.Modulate = this.enabled ? new Color(0.8f, 0.8f, 1) : new Color(1, 1, 1);
                 if (this.attackReducer != null) {
                     if (this.enabled) {
+                        GD.Print($"Enabled {this.augment}");
                         this.attackReducer.augments.Add(this.augment);
                     } else {
+                        GD.Print($"Disabled {this.augment}");
                         this.attackReducer.augments.Remove(this.augment);
                     }
                     this.attackReducer.Reduce();
