@@ -130,5 +130,7 @@ public class FireController : Node2D
         projectile.Position = Tip.GlobalPosition + definition.initPosition.Rotated(rotation);
         projectile.SpriteRotation = rotation;
         projectile.Scale = new Vector2(definition.scale, definition.scale);
+        Controller.AddStability(-0.01f);
+
     }
 }

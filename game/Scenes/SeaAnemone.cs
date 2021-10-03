@@ -17,7 +17,7 @@ public class SeaAnemone : Area2D
 
     public Int32 HP = 4;
 
-    public Single StabilityCost = 10f;
+    public Single StabilityCost = 5f;
 
     public Vector2 TargetLocation
     {
