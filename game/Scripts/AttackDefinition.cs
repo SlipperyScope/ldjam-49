@@ -8,6 +8,7 @@ public class AttackDefinition : Node
   public DFloat shotDelay = new DFloat(250); // milliseconds, I guess?
   public DFloat burstDelay = new DFloat(50);
   public int burstCount = 1;
+  public bool canHasHorn = false;
   public List<ProjectileDefinition> projectiles = new List<ProjectileDefinition>();
 
   public AttackDefinition Clone() {

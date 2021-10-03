@@ -35,6 +35,11 @@ public static class Augments {
     }
   });
 
+  //
+  // The one true augment
+  //
+  public static Augment Horn = new Augment(101, def => def.canHasHorn = true);
+
   private static void MakeProjectiles(AttackDefinition definition, int count) {
     for (int i = 0; i < count; i++) {
       definition.projectiles.Add(new ProjectileDefinition());
