@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Sprites/Placeholders/Square.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Camera.cs" type="Script" id=2]
@@ -13,6 +13,17 @@
 [ext_resource path="res://BeautifulArt/HUD/Icons/4Bullet.png" type="Texture" id=11]
 [ext_resource path="res://BeautifulArt/HUD/Icons/Porculion.png" type="Texture" id=12]
 [ext_resource path="res://BeautifulArt/HUD/Icons/Singleshot.png" type="Texture" id=13]
+[ext_resource path="res://BeautifulArt/HUD/BarBackground.png" type="Texture" id=14]
+[ext_resource path="res://BeautifulArt/HUD/BarForeground.png" type="Texture" id=15]
+[ext_resource path="res://Scripts/StabilityBar.cs" type="Script" id=16]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.288793, 0.413793, 0.655172, 1 )
+colors = PoolColorArray( 0.388672, 0, 0, 1, 0.930979, 0.20377, 0.20377, 1, 0.951172, 0.468733, 0.468733, 1, 0.955078, 0.2312, 0.2312, 1, 0.478516, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 1700
 
 [node name="Camera" type="Node2D"]
 script = ExtResource( 2 )
@@ -41,119 +52,181 @@ __meta__ = {
 }
 
 [node name="Deuce" parent="HUD" instance=ExtResource( 3 )]
+margin_left = 33.4696
+margin_top = 299.845
+margin_right = 133.47
+margin_bottom = 399.845
 texture = ExtResource( 4 )
 augment = "Deuce"
 
 [node name="Trey" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 88.9221
-margin_right = 188.922
-margin_bottom = 120.0
+margin_left = 102.392
+margin_top = 299.845
+margin_right = 202.392
+margin_bottom = 399.845
 texture = ExtResource( 10 )
 augment = "Trey"
 
 [node name="Quad" parent="HUD" instance=ExtResource( 3 )]
-margin_top = 88.9222
-margin_right = 120.0
-margin_bottom = 188.922
+margin_left = 33.4696
+margin_top = 368.767
+margin_right = 133.47
+margin_bottom = 468.767
 texture = ExtResource( 11 )
 augment = "Quad"
 
 [node name="Porcupine" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 88.9221
-margin_top = 88.9222
-margin_right = 188.922
-margin_bottom = 188.922
+margin_left = 102.392
+margin_top = 368.767
+margin_right = 202.392
+margin_bottom = 468.767
 texture = ExtResource( 12 )
 augment = "Porcupine"
 
 [node name="TripleShot" parent="HUD" instance=ExtResource( 3 )]
-margin_top = 159.343
-margin_right = 120.0
-margin_bottom = 259.343
+margin_left = 33.4696
+margin_top = 439.188
+margin_right = 133.47
+margin_bottom = 539.188
 texture = ExtResource( 6 )
 augment = "TripleShot"
 
 [node name="FiveShot" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 88.9221
-margin_top = 159.343
-margin_right = 188.922
-margin_bottom = 259.343
+margin_left = 102.392
+margin_top = 439.188
+margin_right = 202.392
+margin_bottom = 539.188
 texture = ExtResource( 7 )
 augment = "FiveShot"
 
 [node name="KittenPurr" parent="HUD" instance=ExtResource( 3 )]
-margin_top = 227.765
-margin_right = 120.0
-margin_bottom = 327.765
+margin_left = 33.4696
+margin_top = 507.61
+margin_right = 133.47
+margin_bottom = 607.61
 texture = ExtResource( 8 )
 augment = "KittenPurr"
 
 [node name="RandoShot" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 88.9221
-margin_top = 227.765
-margin_right = 188.922
-margin_bottom = 327.765
+margin_left = 102.392
+margin_top = 507.61
+margin_right = 202.392
+margin_bottom = 607.61
 texture = ExtResource( 9 )
 augment = "RandoShot"
 
 [node name="Horn" parent="HUD" instance=ExtResource( 3 )]
-margin_top = 297.686
-margin_right = 120.0
-margin_bottom = 397.686
+margin_left = 33.4696
+margin_top = 577.531
+margin_right = 133.47
+margin_bottom = 677.531
 texture = ExtResource( 5 )
 augment = "Horn"
 
 [node name="SpawnV" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 88.8444
-margin_top = 298.963
-margin_right = 188.844
-margin_bottom = 398.963
+margin_left = 102.314
+margin_top = 578.808
+margin_right = 202.314
+margin_bottom = 678.808
 texture = ExtResource( 13 )
 augment = "SpawnV"
 
 [node name="SpawnCircle" parent="HUD" instance=ExtResource( 3 )]
-margin_top = 365.988
-margin_right = 120.0
-margin_bottom = 465.988
+margin_left = 33.4696
+margin_top = 645.833
+margin_right = 133.47
+margin_bottom = 745.833
 texture = ExtResource( 13 )
 augment = "SpawnCircle"
 
 [node name="SpawnRandom" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 88.8444
-margin_top = 367.266
-margin_right = 188.844
-margin_bottom = 467.266
+margin_left = 102.314
+margin_top = 647.111
+margin_right = 202.314
+margin_bottom = 747.111
 texture = ExtResource( 13 )
 augment = "SpawnRandom"
 
 [node name="Big" parent="HUD" instance=ExtResource( 3 )]
-margin_top = 436.954
-margin_right = 120.0
-margin_bottom = 536.954
+margin_left = 33.4696
+margin_top = 716.799
+margin_right = 133.47
+margin_bottom = 816.799
 texture = ExtResource( 13 )
 augment = "Big"
 
 [node name="Fast" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 88.8444
-margin_top = 438.232
-margin_right = 188.844
-margin_bottom = 538.232
+margin_left = 102.314
+margin_top = 718.077
+margin_right = 202.314
+margin_bottom = 818.077
 texture = ExtResource( 13 )
 augment = "Fast"
 
 [node name="Slow" parent="HUD" instance=ExtResource( 3 )]
-margin_top = 505.61
-margin_right = 120.0
-margin_bottom = 605.61
+margin_left = 33.4696
+margin_top = 785.455
+margin_right = 133.47
+margin_bottom = 885.455
 texture = ExtResource( 13 )
 augment = "Slow"
 
 [node name="Penetrating" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 88.8444
-margin_top = 506.534
-margin_right = 188.844
-margin_bottom = 606.534
+margin_left = 102.314
+margin_top = 786.379
+margin_right = 202.314
+margin_bottom = 886.379
 texture = ExtResource( 13 )
 augment = "Penetrating"
+
+[node name="StabilityBar" type="Node" parent="HUD"]
+script = ExtResource( 16 )
+
+[node name="FG" type="TextureRect" parent="HUD/StabilityBar"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -880.0
+margin_top = 40.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 1, 0.4 )
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bar" type="Container" parent="HUD/StabilityBar"]
+anchor_left = 0.5
+anchor_right = 0.508
+margin_left = -855.0
+margin_top = 120.0
+rect_rotation = 180.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BarTexture" type="TextureRect" parent="HUD/StabilityBar/Bar"]
+margin_right = 160.0
+margin_bottom = 1700.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.4, 1 )
+texture = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="TextureRect" parent="HUD/StabilityBar"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -880.0
+margin_top = 40.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 1, 0.4 )
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="gui_input" from="HUD/Minimap" to="." method="_on_Minimap_gui_input"]
