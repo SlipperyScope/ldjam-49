@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://BeautifulArt/spider.png" type="Texture" id=1]
+
+[node name="ant" type="Node2D"]
+
+[node name="spider" type="Sprite" parent="."]
+position = Vector2( -25.5562, 28.5823 )
+texture = ExtResource( 1 )

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/ant.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/MoveAlongPath.cs" type="Script" id=2]
+
+[node name="PathFollow2D" type="PathFollow2D"]
+position = Vector2( -2.09375, 19.189 )
+rotation = 0.465147
+z_index = -1
+script = ExtResource( 2 )
+
+[node name="ant" parent="." instance=ExtResource( 1 )]
+scale = Vector2( 0.1, 0.1 )
