@@ -14,6 +14,9 @@ public class AttackReducer : Node
     {
         this.start = new AttackDefinition();
         this.start.projectiles.Add(new ProjectileDefinition());
+
+        // Make sure there is always a valid end definition
+        this.Reduce();
     }
 
     public void Reduce() {
