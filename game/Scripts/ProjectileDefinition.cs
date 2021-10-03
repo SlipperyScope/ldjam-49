@@ -7,7 +7,7 @@ public class ProjectileDefinition : Node
 {
   public float damage = 5;
   public float speed = 3;
-  public float initRotation = 0;
+  public DFloat initRotation = new DFloat(0);
   public Vector2 initPosition = new Vector2(0, 0);
   public float scale = 1;
   public bool penetrating = false;

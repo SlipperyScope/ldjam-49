@@ -43,7 +43,7 @@ public static class Augments {
       // Lol, no clue if this works. We'll see later I guess
       for (int idx = 0; idx < def.projectiles.Count; idx++) {
         def.projectiles[idx].initPosition = new Vector2(0, 0);
-        def.projectiles[idx].initRotation = (float)(-angleRange/2 + angleStep * idx);
+        def.projectiles[idx].initRotation = new DFloat(-angleRange/2 + angleStep * idx);
       }
     }
   });
@@ -55,8 +55,14 @@ public static class Augments {
 
       for (int idx = 0; idx < def.projectiles.Count; idx++) {
         def.projectiles[idx].initPosition = new Vector2(0, 0);
-        def.projectiles[idx].initRotation = (float)(angleStep * idx);
+        def.projectiles[idx].initRotation = new DFloat(angleStep * idx);
       }
+    }
+  });
+
+  public static Augment SpawnRandom = new Augment(70, def => {
+    for (int idx = 0; idx < def.projectiles.Count; idx++) {
+      def.projectiles[idx].initRotation = new DFloat(0, Math.PI * 2);
     }
   });
 
