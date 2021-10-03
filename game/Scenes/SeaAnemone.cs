@@ -4,12 +4,18 @@ using System;
 public class SeaAnemone : Area2D
 {
     const String ExplodePlayerPath = "ExplodeSound";
+    const String HitPlayerPath = "HitSound";
+    const String ShapePath = "CollisionShape2D";
 
-    public AudioStreamPlayer2D ExplodePlayer;
+    public AudioStreamPlayer2D ExplodePlayer { get; private set; }
+    public AudioStreamPlayer2D HitPlayer { get; private set; }
+    public CollisionShape2D Collision { get; private set; } 
 
     public Vector2 Velocity { get; private set; }
 
     public Single Speed = 400f;
+
+    public Int32 HP = 4;
 
     public Vector2 TargetLocation
     {
@@ -30,6 +36,9 @@ public class SeaAnemone : Area2D
     public override void _Ready()
     {
         ExplodePlayer = GetNode<AudioStreamPlayer2D>(ExplodePlayerPath);
+        HitPlayer = GetNode<AudioStreamPlayer2D>(HitPlayerPath);
+        Collision = GetNode<CollisionShape2D>(ShapePath);
+
         ExplodePlayer.Connect("finished", this, nameof(Sewercide));
         Position = NewTarget();
         TargetLocation = NewTarget();
@@ -46,15 +55,21 @@ public class SeaAnemone : Area2D
 
     private void OnAreaEntered(Area2D other)
     {
-        if (other is TurretController)
+        switch (other)
         {
-            //Do damage to turret
+            //case TurretController turret:
+            //    Damage(HP);
+            //    break;
+            case SeaAnemone enemy:
+                Damage(HP);
+                break;
+            case Bullet bullet:
+                Damage(1);
+                HitPlayer.Play(0.1f);
+                break;
+            default:
+                break;
         }
-        GD.Print($"{this}={Name} collided with {other}");
-        ExplodePlayer.Play();
-        Visible = false;
-        var collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
-        collisionShape.CallDeferred("set", "disabled", true);
     }
 
     private void OnTargetChanged()
@@ -68,14 +83,30 @@ public class SeaAnemone : Area2D
         return GlobalPosition + Velocity * time;
     }
 
+    public void Damage(Int32 amount)
+    {
+        HP -= amount;
+        if (HP <= 0)
+        {
+            Explode();
+        }
+    }
+
+    private void Explode()
+    {
+        Visible = false;
+        Collision.CallDeferred("set", "disabled", true);
+        ExplodePlayer.Play(0.1f);
+    }
+
     private void Sewercide()
     {
         //QueueFree();
         Position = NewTarget();
         TargetLocation = NewTarget();
         Visible = true;
-        var collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
-        collisionShape.CallDeferred("set", "disabled", false);
+        Collision.CallDeferred("set", "disabled", false);
+        HP = 4;
     }
 
     // temp target aquisition
