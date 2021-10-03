@@ -26,4 +26,22 @@ public class ProjectileDefinition : Node
   public string Print() {
     return $"Damage: {damage}, Speed: {speed}, Scale: {scale}, Penetrating: {penetrating}, InitRotation: {initRotation}, InitPosition [{initPosition.x},{initPosition.y}]";
   }
+
+  public float cost {
+    get {
+      // Base cost should be 1;
+      var speedF = 3 / 10;
+      var damageF = 5 / 10;
+      var scaleF = 2 / 10;
+
+      var total = this.speed * speedF + this.damage * damageF + this.scale * scaleF;
+      if (this.penetrating) total *= 1.3f;
+
+      // In case of emergency, break glass
+      var justMakeTheNumberBigger = 1;
+      total *= justMakeTheNumberBigger;
+
+      return total;
+    }
+  }
 }

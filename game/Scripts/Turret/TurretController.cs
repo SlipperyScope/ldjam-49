@@ -18,7 +18,7 @@ public class TurretController : Area2D
     /// </summary>
     [Export]
     public NodePath AttackReducerPath { get; private set; }
-    
+
     /// <summary>
     /// Turret base
     /// </summary>
@@ -54,8 +54,8 @@ public class TurretController : Area2D
     /// </summary>
     private Node2D Target;
 
-    public Single MaxStability = 1f;
-    public Single CurrentStability = 1f;
+    public Single MaxStability = 100f;
+    public Single CurrentStability = 100f;
 
     public override void _EnterTree()
     {
