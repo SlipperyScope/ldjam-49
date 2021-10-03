@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Alpha_Horn_Sound.mp3-7d71cb8adeb580d7c82aa96aa91fe251.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Alpha_Horn_Sound.mp3"
+dest_files=[ "res://.import/Alpha_Horn_Sound.mp3-7d71cb8adeb580d7c82aa96aa91fe251.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
