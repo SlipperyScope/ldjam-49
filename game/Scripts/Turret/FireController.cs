@@ -100,28 +100,15 @@ public class FireController : Node2D
         }
     }
 
-    /// <summary>
-    /// Fire projectile
-    /// </summary>
-    /// 
-    //private void Fire()
-    //{
-    //    var bullet = BulletScene.Instance<Bullet>();
-    //    GetTree().Root.AddChild(bullet);
-    //    bullet.GlobalRotation = GlobalRotation;
-    //    bullet.Velocity = (new Vector2(BulletSpeed, 0f)).Rotated(GlobalRotation);
-    //    bullet.GlobalPosition = Tip.GlobalPosition;
-    //    if (DoHorn is true)
-    //    {
-    //        GetParent().GetNode<AudioStreamPlayer>("SFX").Play();
-    //    }
-    //}
-
     private void Fire()
     {
         foreach (var definition in Projectiles)
         {
             SpawnProjectile(definition);
+        }
+        if (DoHorn is true)
+        {
+            GetParent().GetNode<AudioStreamPlayer>("SFX").Play();
         }
     }
 
@@ -130,10 +117,9 @@ public class FireController : Node2D
         var projectile = BulletScene.Instance<Bullet>();
         GetTree().Root.AddChild(projectile);
 
-        var radians = definition.initRotation * 180f / Math.PI;
+        var radians = definition.initRotation;
         var rotation = (Single)radians + Tip.GlobalRotation;
         var direction = new Vector2((Single)Math.Cos(rotation), (Single)Math.Sin(rotation));
-        //var position = Tip.GlobalPosition + definition.initPosition;
 
         projectile.Damage = definition.damage;
         projectile.Penetrates = definition.penetrating;
