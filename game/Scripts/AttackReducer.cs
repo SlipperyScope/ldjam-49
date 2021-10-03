@@ -5,6 +5,11 @@ using System.Collections.Generic;
 
 public class AttackReducer : Node
 {
+    private Boolean DoDebug = false;
+
+    public delegate void AttackDefinitionUpdatedHandler(object sender, AttackDefinitionUpdatedArgs e);
+    public event AttackDefinitionUpdatedHandler AttackDefinitionUpdated;
+
     private AttackDefinition start;
     public AttackDefinition end;
     public List<string> augments = new List<string>();
@@ -34,11 +39,23 @@ public class AttackReducer : Node
 
         augmenters.Sort((x, y) => x.priority.CompareTo(y.priority));
         foreach(var augmenter in augmenters) {
-            GD.Print(augmenter.priority);
+            if (DoDebug) GD.Print(augmenter.priority);
             augmenter.apply(this.end);
         }
 
-        GD.Print("--------- Reduced!");
-        GD.Print(this.end.Print());
+        if (DoDebug) GD.Print("--------- Reduced!");
+        if (DoDebug) GD.Print(this.end.Print());
+
+        AttackDefinitionUpdated?.Invoke(this, new AttackDefinitionUpdatedArgs(end.Clone()));
+    }
+
+    
+}
+public class AttackDefinitionUpdatedArgs : EventArgs
+{
+    public AttackDefinition Definition { get; private set; } 
+    public AttackDefinitionUpdatedArgs(AttackDefinition definition)
+    {
+        Definition = definition;
     }
 }

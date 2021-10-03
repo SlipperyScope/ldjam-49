@@ -10,9 +10,25 @@ public class TurretController : Node2D
     const String BasePath = "Base";
     const String GunPath = "Gun";
 
+    /// <summary>
+    /// Path to attackr educer
+    /// </summary>
+    [Export]
+    public NodePath AttackReducerPath { get; private set; }
+    
+    /// <summary>
+    /// Turret base
+    /// </summary>
     public Node2D Base { get; private set; }
+
+    /// <summary>
+    /// Turret gun
+    /// </summary>
     public FireController Gun { get; private set; }
 
+    /// <summary>
+    /// Turret target mode
+    /// </summary>
     public enum TargetMode
     {
         Nearest,
@@ -20,10 +36,19 @@ public class TurretController : Node2D
         Deadest
     }
 
-    public Single RotationSpeed { get; private set; } = 180f;
+    /// <summary>
+    /// Max rotation speed of turret
+    /// </summary>
+    public Single RotationSpeed { get; private set; } = 90f;
 
+    /// <summary>
+    /// Current Target mode
+    /// </summary>
     public TargetMode Mode = TargetMode.Nearest;
 
+    /// <summary>
+    /// Current Target
+    /// </summary>
     private Node2D Target;
 
     /// <summary>
@@ -33,6 +58,18 @@ public class TurretController : Node2D
     {
         Base = GetNode<Node2D>(BasePath);
         Gun = GetNode<FireController>(GunPath);
+        var reducer = GetNode<AttackReducer>(AttackReducerPath);
+        reducer.AttackDefinitionUpdated += Reducer_AttackDefinitionUpdated;
+    }
+
+    private void Reducer_AttackDefinitionUpdated(System.Object sender, AttackDefinitionUpdatedArgs e)
+    {
+        var definition = e.Definition;
+        Gun.BurstSize = definition.burstCount;
+        Gun.BurstInterval = (Single)definition.burstDelay.Yield() / 1000f;
+        Gun.BurstCooldown = (Single)definition.shotDelay.Yield() / 1000f;
+        Gun.DoHorn = definition.canHasHorn;
+       // Gun.Projectiles = definition
     }
 
     /// <summary>
@@ -41,7 +78,6 @@ public class TurretController : Node2D
     public override void _Process(Single delta)
     {
         Aim(delta);
-
     }
 
     /// <summary>

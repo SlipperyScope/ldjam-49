@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class FireController : Node2D
 {
@@ -49,6 +50,13 @@ public class FireController : Node2D
     public Single BulletSpeed { get; set; } = 400f;
 
     /// <summary>
+    /// True to be horny
+    /// </summary>
+    public Boolean DoHorn { get; set; } = false;
+
+    public List<ProjectileDefinition> projectiles;
+
+    /// <summary>
     /// Ready
     /// </summary>
     public override void _Ready()
@@ -90,6 +98,9 @@ public class FireController : Node2D
         bullet.GlobalRotation = GlobalRotation;
         bullet.Velocity = (new Vector2(BulletSpeed, 0f)).Rotated(GlobalRotation);
         bullet.GlobalPosition = Tip.GlobalPosition;
-        GetParent().GetNode<AudioStreamPlayer>("SFX").Play();
+        if (DoHorn is true)
+        {
+            GetParent().GetNode<AudioStreamPlayer>("SFX").Play();
+        }
     }
 }
