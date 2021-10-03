@@ -28,6 +28,7 @@ public class AttackDefinition : Node
   public string Print() {
     var lines = new List<string>(){
       $"ShotDelay: {shotDelay}, BurstDelay: {burstDelay}, BurstCount: {burstCount}",
+      $"Horn? {(canHasHorn ? "Yes" : "No")}",
       "Projectiles:",
     };
 
