@@ -26,7 +26,6 @@ public class Camera : Node2D
         }
         if (evt is InputEventMouseMotion mevt) {
             if (isDragging) {
-                GD.Print("motion", mevt.Position);
                 moveToMinimapPosition(mevt.Position);
             }
         }
@@ -46,5 +45,15 @@ public class Camera : Node2D
         camera.LimitTop = -height/2;
         camera.LimitRight = width/2;
         camera.LimitBottom = height/2;
+
+        // Scale the minimap in proportion to the map
+        var widthFactor = rect.Size.x / rect.Size.y;
+        minimap.RectScale = new Vector2(widthFactor * 0.2f, 0.2f);
+
+        // GAME JAM -- position the minimap so it's always in viewport
+        var dimensions = new Vector2(1920f, 1080f);
+        var margins = new Vector2(25f, 25f);
+        var scaledSize = new Vector2(minimap.RectSize.x * minimap.RectScale.x, minimap.RectSize.y * minimap.RectScale.y);
+        minimap.RectPosition = dimensions - margins - scaledSize;
     }
 }
