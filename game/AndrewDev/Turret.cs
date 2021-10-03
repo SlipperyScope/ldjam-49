@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Turret : Node2D
+public class Turret : Area2D
 {
     const String BulletScenePath = "res://Scenes/Bullet.tscn";
 
@@ -27,6 +27,10 @@ public class Turret : Node2D
 
     [Export]
     public Single BurstInterval = 0.05f;
+
+    public Single MaxStability = 1f;
+    public Single CurrentStability = 1f;
+
 
     public Node2D Base { get; private set; }
     public Node2D Gun { get; private set; }

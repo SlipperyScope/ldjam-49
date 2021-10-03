@@ -1,12 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://BeautifulArt/TurretBase.png" type="Texture" id=1]
 [ext_resource path="res://BeautifulArt/BasicGun.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Turret/TurretController.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Turret/FireController.cs" type="Script" id=4]
 [ext_resource path="res://Sounds/Alpha_Horn_Sound.mp3" type="AudioStream" id=5]
+[ext_resource path="res://SFX/Ouch.mp3" type="AudioStream" id=6]
 
-[node name="Turret" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 58.2034, 53.8769 )
+
+[node name="Turret" type="Area2D"]
 script = ExtResource( 3 )
 
 [node name="Base" type="Sprite" parent="."]
@@ -26,3 +30,12 @@ position = Vector2( 205.565, 0 )
 [node name="SFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 volume_db = -40.388
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 2.31245, 2.10223 )
+rotation = -0.0362203
+shape = SubResource( 1 )
+
+[node name="Ouch" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -9.218

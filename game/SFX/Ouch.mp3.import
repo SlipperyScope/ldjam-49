@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Ouch.mp3-56921fb2d72fa465409622a7d6c3b261.mp3str"
+
+[deps]
+
+source_file="res://SFX/Ouch.mp3"
+dest_files=[ "res://.import/Ouch.mp3-56921fb2d72fa465409622a7d6c3b261.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

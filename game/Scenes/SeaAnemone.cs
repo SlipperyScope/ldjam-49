@@ -57,9 +57,9 @@ public class SeaAnemone : Area2D
     {
         switch (other)
         {
-            //case TurretController turret:
-            //    Damage(HP);
-            //    break;
+            case TurretController turret:
+                Damage(HP);
+                break;
             case SeaAnemone enemy:
                 Damage(HP);
                 break;

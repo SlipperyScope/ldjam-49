@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class TurretController : Node2D
+public class TurretController : Area2D
 {
     const String BulletScenePath = "res://Scenes/Bullet.tscn";
 
     const String BasePath = "Base";
     const String GunPath = "Gun";
+    const String OuchPlayerPath = "Ouch";
+
+    public AudioStreamPlayer OuchPlayer { get; private set; }
 
     /// <summary>
     /// Path to attackr educer
@@ -51,11 +54,20 @@ public class TurretController : Node2D
     /// </summary>
     private Node2D Target;
 
+    public Single MaxStability = 1f;
+    public Single CurrentStability = 1f;
+
+    public override void _EnterTree()
+    {
+        Connect("area_entered", this, nameof(OnAreaEntered));
+    }
+
     /// <summary>
     /// Ready
     /// </summary>
     public override void _Ready()
     {
+        OuchPlayer = GetNode<AudioStreamPlayer>(OuchPlayerPath);
         RotationSpeed = (Single)(RotationSpeed * Math.PI / 180f);
         Base = GetNode<Node2D>(BasePath);
         Gun = GetNode<FireController>(GunPath);
@@ -79,6 +91,14 @@ public class TurretController : Node2D
     public override void _Process(Single delta)
     {
         Aim(delta);
+    }
+
+    private void OnAreaEntered(Area2D other)
+    {
+        if (other is SeaAnemone)
+        {
+            OuchPlayer.Play(0.1f);
+        }
     }
 
     /// <summary>
