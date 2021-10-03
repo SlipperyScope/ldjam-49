@@ -47,8 +47,8 @@ public class Camera : Node2D
         camera.LimitBottom = height/2;
 
         // Scale the minimap in proportion to the map
-        var widthFactor = rect.Size.x / rect.Size.y;
-        minimap.RectScale = new Vector2(widthFactor * 0.2f, 0.2f);
+        // var widthFactor = rect.Size.x / rect.Size.y;
+        // minimap.RectScale = new Vector2(widthFactor * 0.2f, 0.2f);
 
         // GAME JAM -- position the minimap so it's always in viewport
         var dimensions = new Vector2(1920f, 1080f);

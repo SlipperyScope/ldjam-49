@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://Sprites/Placeholders/Square.png" type="Texture" id=1]
+[ext_resource path="res://BeautifulArt/Minimap.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Camera.cs" type="Script" id=2]
 [ext_resource path="res://Scenes/HUDButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://BeautifulArt/HUD/Icons/2Bullet.png" type="Texture" id=4]
@@ -39,13 +39,13 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -128.465
-margin_top = -128.701
-margin_right = 375.535
-margin_bottom = 375.299
+margin_left = -270.972
+margin_top = -165.765
+margin_right = 229.029
+margin_bottom = 134.235
 grow_horizontal = 0
 grow_vertical = 0
-rect_scale = Vector2( 0.2, 0.2 )
+rect_scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
