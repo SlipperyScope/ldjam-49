@@ -2,6 +2,13 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+public enum FiringPattern
+{
+    Parallel,
+    V,
+    Circle
+}
+
 public class FireController : Node2D
 {
     const String BulletScenePath = "res://Scenes/Bullet.tscn";
@@ -38,6 +45,11 @@ public class FireController : Node2D
     /// Time between bursts
     /// </summary>
     public DFloat BurstCooldown { get; set; } = 0.4f;
+
+    /// <summary>
+    /// Shape of bullet spawns
+    /// </summary>
+    public FiringPattern SpawnPattern;
 
     /// <summary>
     /// Instancable bullet Scene
@@ -91,16 +103,43 @@ public class FireController : Node2D
     /// <summary>
     /// Fire projectile
     /// </summary>
+    /// 
+    //private void Fire()
+    //{
+    //    var bullet = BulletScene.Instance<Bullet>();
+    //    GetTree().Root.AddChild(bullet);
+    //    bullet.GlobalRotation = GlobalRotation;
+    //    bullet.Velocity = (new Vector2(BulletSpeed, 0f)).Rotated(GlobalRotation);
+    //    bullet.GlobalPosition = Tip.GlobalPosition;
+    //    if (DoHorn is true)
+    //    {
+    //        GetParent().GetNode<AudioStreamPlayer>("SFX").Play();
+    //    }
+    //}
+
     private void Fire()
     {
-        var bullet = BulletScene.Instance<Bullet>();
-        GetTree().Root.AddChild(bullet);
-        bullet.GlobalRotation = GlobalRotation;
-        bullet.Velocity = (new Vector2(BulletSpeed, 0f)).Rotated(GlobalRotation);
-        bullet.GlobalPosition = Tip.GlobalPosition;
-        if (DoHorn is true)
+        foreach (var definition in Projectiles)
         {
-            GetParent().GetNode<AudioStreamPlayer>("SFX").Play();
+            SpawnProjectile(definition);
         }
+    }
+
+    private void SpawnProjectile(ProjectileDefinition definition)
+    {
+        var projectile = BulletScene.Instance<Bullet>();
+        GetTree().Root.AddChild(projectile);
+
+        var radians = definition.initRotation * 180f / Math.PI;
+        var rotation = (Single)radians + Tip.GlobalRotation;
+        var direction = new Vector2((Single)Math.Cos(rotation), (Single)Math.Sin(rotation));
+        //var position = Tip.GlobalPosition + definition.initPosition;
+
+        projectile.Damage = definition.damage;
+        projectile.Penetrates = definition.penetrating;
+        projectile.Velocity =  direction * definition.speed * 200f;
+        projectile.Position = Tip.GlobalPosition + definition.initPosition.Rotated(rotation);
+        projectile.SpriteRotation = rotation;
+        projectile.Scale = new Vector2(definition.scale, definition.scale);
     }
 }

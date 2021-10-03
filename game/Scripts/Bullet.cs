@@ -11,6 +11,14 @@ public class Bullet : Node2D
     
     private Sprite Sprite;
 
+    public Single Damage;
+    public Boolean Penetrates;
+    public Single SpriteRotation
+    {
+        get => Sprite.Rotation;
+        set => Sprite.Rotation = value;
+    }
+
     /// <summary>
     /// Ready
     /// </summary>
