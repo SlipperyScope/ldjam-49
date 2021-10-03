@@ -8,6 +8,7 @@ public class ProjectileDefinition : Node
   public float damage = 5;
   public float speed = 3;
   public float initRotation = 0;
+  public Vector2 initPosition = new Vector2(0, 0);
 
   public ProjectileDefinition Clone() {
     return new ProjectileDefinition(){
@@ -18,6 +19,6 @@ public class ProjectileDefinition : Node
   }
 
   public string Print() {
-    return $"Damage: {damage}, Speed: {speed}, InitRotation: {initRotation}";
+    return $"Damage: {damage}, Speed: {speed}, InitRotation: {initRotation}, InitPosition [{initPosition.x},{initPosition.y}]";
   }
 }
