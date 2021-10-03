@@ -1,8 +1,18 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Sprites/CarRobot.tscn" type="PackedScene" id=1]
+[ext_resource path="res://BeautifulArt/Explosion1.png" type="Texture" id=1]
+[ext_resource path="res://BeautifulArt/Explosion3.png" type="Texture" id=2]
+[ext_resource path="res://BeautifulArt/Explosion2.png" type="Texture" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="CarRobot" parent="." instance=ExtResource( 1 )]
-frame = 3
+[node name="Explosion" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
