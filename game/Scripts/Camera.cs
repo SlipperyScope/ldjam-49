@@ -4,15 +4,33 @@ using System.Collections.Generic;
 
 public class Camera : Node2D
 {
+    const String MapBlipPath = "res://Scenes/MapBlip.tscn";
+    private PackedScene MapBlipScene;
+
     Camera2D camera;
     TextureRect minimap;
     Control gameoverScreen;
     Sprite map;
     TurretController turret;
     bool isDragging = false;
+    private Timer MapUpdateTimer = new Timer();
+    private List<Sprite> Blips = new List<Sprite>();
+
+
+
+    public override void _EnterTree()
+    {
+        MapBlipScene = GD.Load<PackedScene>(MapBlipPath);
+    }
 
     public override void _Ready()
     {
+        MapUpdateTimer.Autostart = true;
+        MapUpdateTimer.OneShot = false;
+        MapUpdateTimer.WaitTime = 1f;
+        MapUpdateTimer.Connect("timeout", this, nameof(UpdateMap));
+        AddChild(MapUpdateTimer);
+
         camera = GetNode<Camera2D>("Camera2D");
         minimap = GetNode<TextureRect>("HUD/Minimap");
         map = GetParent().GetNode<Sprite>("MapSprite");
@@ -79,5 +97,20 @@ public class Camera : Node2D
         var margins = new Vector2(25f, 25f);
         var scaledSize = new Vector2(minimap.RectSize.x * minimap.RectScale.x, minimap.RectSize.y * minimap.RectScale.y);
         minimap.RectPosition = dimensions - margins - scaledSize;
+    }
+
+    private void UpdateMap()
+    {
+        var mapables = GetTree().GetNodesInGroup("Mapable");
+        Blips.ForEach(b => b.QueueFree());
+        Blips.Clear();
+        foreach (Node2D mapable in mapables)
+        {
+            var blip = MapBlipScene.Instance<Sprite>();
+            blip.Position = ((turret.GlobalPosition - mapable.GlobalPosition) / -10f + minimap.RectGlobalPosition / 4f) * minimap.RectScale + new Vector2(48f, 32f);
+            Blips.Add(blip);
+            minimap.AddChild(blip);
+            GD.Print($"blip at {blip.GlobalPosition} map at {minimap.RectGlobalPosition}");
+        }
     }
 }

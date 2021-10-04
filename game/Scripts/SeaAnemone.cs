@@ -51,6 +51,7 @@ public class SeaAnemone : Area2D
     {
         Connect("area_entered", this, nameof(OnAreaEntered));
         AddToGroup("Targetable");
+        AddToGroup("Mapable");
     }
 
     /// <summary>
@@ -142,6 +143,8 @@ public class SeaAnemone : Area2D
     {
         if (DED is true) return;
         DED = true;
+        RemoveFromGroup("Mapable");
+        RemoveFromGroup("Targetable");
         Velocity = Vector2.Zero;
         var children = GetChildren();
         foreach (Node2D child in children)
