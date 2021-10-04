@@ -15,4 +15,4 @@ StabilityCost = 4.0
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="." index="3" instance=ExtResource( 2 )]
-frame = 3
+frame = 6

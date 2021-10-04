@@ -6,7 +6,9 @@ public class Camera : Node2D
 {
     Camera2D camera;
     TextureRect minimap;
+    Control gameoverScreen;
     Sprite map;
+    TurretController turret;
     bool isDragging = false;
 
     public override void _Ready()
@@ -14,8 +16,16 @@ public class Camera : Node2D
         camera = GetNode<Camera2D>("Camera2D");
         minimap = GetNode<TextureRect>("HUD/Minimap");
         map = GetParent().GetNode<Sprite>("MapSprite");
+        gameoverScreen = GetNode<Control>("HUD/GameOver");
+        turret = GetParent().GetNode<TurretController>("Turret");
+
+        turret.DidDed += Gameover;
 
         setCameraLimit(map);
+    }
+
+    private void Gameover(object sender) {
+        this.gameoverScreen.Visible = true;
     }
 
     // Signals are doodoo poopy ass and this only works because this signal is turned on in the editor
@@ -29,6 +39,19 @@ public class Camera : Node2D
             if (isDragging) {
                 moveToMinimapPosition(mevt.Position);
             }
+        }
+    }
+
+    public void _on_GameOver_gui_input(InputEvent evt) {
+        if (evt is InputEventMouseButton ievt) {
+            gameoverScreen.Visible = false;
+            foreach (Node target in GetTree().GetNodesInGroup("Targetable")) {
+                target.QueueFree();
+            }
+            foreach (Node projectile in GetTree().GetNodesInGroup("Projectiles")) {
+                projectile.QueueFree();
+            }
+            GetTree().ReloadCurrentScene();
         }
     }
 

@@ -19,6 +19,6 @@ public class StabilityBar : Node
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        this.bar.RectScale = new Vector2(this.turret.CurrentStability / this.turret.MaxStability, 1f);
+        this.bar.RectScale = new Vector2(Math.Max(0, this.turret.CurrentStability / this.turret.MaxStability), 1f);
     }
 }

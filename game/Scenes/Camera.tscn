@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://BeautifulArt/Minimap.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Camera.cs" type="Script" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://BeautifulArt/FastBullet.png" type="Texture" id=20]
 [ext_resource path="res://BeautifulArt/SlowBullet.png" type="Texture" id=21]
 [ext_resource path="res://BeautifulArt/RandomPattern.png" type="Texture" id=22]
+[ext_resource path="res://BeautifulArt/HUD/Gameover.png" type="Texture" id=23]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.288793, 0.413793, 0.655172, 1 )
@@ -30,6 +31,12 @@ colors = PoolColorArray( 0.388672, 0, 0, 1, 0.930979, 0.20377, 0.20377, 1, 0.951
 [sub_resource type="GradientTexture" id=2]
 gradient = SubResource( 1 )
 width = 1700
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 0, 0, 0, 0.0784314, 0, 0, 0, 0.0784314 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 
 [node name="Camera" type="Node2D"]
 script = ExtResource( 2 )
@@ -235,4 +242,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="GameOver" type="Control" parent="HUD"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="HUD/GameOver"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="HUD/GameOver"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.502
+anchor_bottom = 0.507
+margin_left = -480.0
+margin_top = -270.0
+rect_scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 23 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="gui_input" from="HUD/Minimap" to="." method="_on_Minimap_gui_input"]
+[connection signal="gui_input" from="HUD/GameOver" to="." method="_on_GameOver_gui_input"]
