@@ -52,7 +52,7 @@ public class EnemySpawner : Node
 
         if (Time >= NextSpawnTime)
         {
-            Spawn();    
+            Spawn();
         }
     }
 
@@ -71,7 +71,7 @@ public class EnemySpawner : Node
                 SpawnSingle(Spider, SpawnLocation + GetSpawnAreaLocation());
             }
 
-            NextSpawnTime = Time + 4f;
+            NextSpawnTime = Time + 1f;
         }
         else //if (Difficulty < 10)
         {
@@ -83,6 +83,7 @@ public class EnemySpawner : Node
             {
                 SpawnSingle(Car, SpawnLocation + GetSpawnAreaLocation());
             }
+            NextSpawnTime = Time + 4f;
         }
     }
 
@@ -92,6 +93,7 @@ public class EnemySpawner : Node
         GetTree().Root.AddChild(enemy);
         enemy.Position = location;
         enemy.TargetLocation = Turret.GlobalPosition;
+        GD.Print($"spawned at {location}");
     }
 
     private Vector2 GetRandomOffMapLocation() => new Vector2(0f, 1f).Rotated((Single)GD.RandRange(-Math.PI, Math.PI)) * 2500f;

@@ -127,7 +127,7 @@ public class TurretController : Area2D
         return targetsList;
     }
 
-    public void AddStability(Single value)    {        CurrentStability += value;        if (CurrentStability <= 0 && Visible is true)        {            GD.Print($"omglookimdead");            GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set", "disabled", true);            DeadPlayer.Play(0.1f);            Visible = false;        }        else if (CurrentStability > MaxStability)        {            CurrentStability = MaxStability;        }        GD.Print($"hit");    }
+    public void AddStability(Single value)    {        CurrentStability += value;        if (CurrentStability <= 0 && Visible is true)        {            GD.Print($"omglookimdead");            GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set", "disabled", true);            DeadPlayer.Play(0.1f);            Visible = false;        }        else if (CurrentStability > MaxStability)        {            CurrentStability = MaxStability;        }        //GD.Print($"hit");    }
     /// <summary>    /// Nearest target    /// </summary>    /// <returns>Target nearest to the turret</returns>
     private Node2D NearestTarget() =>
         GetTargets().FindAll(target => target.Visible is true).OrderBy(target => GlobalPosition.DistanceSquaredTo(target.GlobalPosition)).FirstOrDefault();
