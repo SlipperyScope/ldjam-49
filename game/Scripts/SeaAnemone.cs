@@ -10,6 +10,7 @@ public class SeaAnemone : Area2D
 
     private Boolean ExplosionSoundFinished = false;
     private Boolean ExplosionAnimationFinished = false;
+    private Boolean DED = false;
 
     public AudioStreamPlayer2D ExplodePlayer { get; private set; }
     public AudioStreamPlayer2D HitPlayer { get; private set; }
@@ -139,6 +140,7 @@ public class SeaAnemone : Area2D
 
     private void Explode()
     {
+        if (DED is true) return;
         //Visible = false;
         Velocity = Vector2.Zero;
         var children = GetChildren();
