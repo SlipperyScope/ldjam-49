@@ -98,7 +98,7 @@ public class SeaAnemone : Area2D
                 //Damage(HP);
                 break;
             case Bullet bullet:
-                Damage(1);
+                CallDeferred(nameof(Damage), 1);
                 HitPlayer.Play(0.1f);
                 break;
             default:

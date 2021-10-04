@@ -52,7 +52,7 @@ public class TurretController : Area2D
 
     public Single MaxStability = 100f;
     public Single CurrentStability = 40f;
-    public Single RecoveryRate = 0.5f;
+    public Single RecoveryRate = 2f;
 
     public override void _EnterTree()
     {

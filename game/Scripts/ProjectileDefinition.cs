@@ -30,15 +30,15 @@ public class ProjectileDefinition : Node
   public float cost {
     get {
       // Base cost should be 1;
-      var speedF = 3 / 10;
-      var damageF = 5 / 10;
-      var scaleF = 2 / 10;
+      var speedF = 3f / 10f;
+      var damageF = 5f / 10f;
+      var scaleF = 2f / 10f;
 
       var total = this.speed * speedF + this.damage * damageF + this.scale * scaleF;
       if (this.penetrating) total *= 1.3f;
 
       // In case of emergency, break glass
-      var justMakeTheNumberBigger = 1;
+      var justMakeTheNumberBigger = 0.008f;
       total *= justMakeTheNumberBigger;
 
       return total;

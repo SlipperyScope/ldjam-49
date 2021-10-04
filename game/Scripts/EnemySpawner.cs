@@ -82,7 +82,8 @@ public class EnemySpawner : Node
 
         for (Int32 i = 0; i < wave.Count; i++)
         {
-            SpawnSingle(SceneFromPath(wave.EnemyMix[(Int32)GD.Randi() % wave.EnemyMix.Count]), spawnLocation + GetSpawnAreaLocation());
+            var rand = Math.Abs((Int32)GD.Randi());
+            SpawnSingle(SceneFromPath(wave.EnemyMix[rand % wave.EnemyMix.Count]), spawnLocation + GetSpawnAreaLocation());
         }
     }
 

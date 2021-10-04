@@ -44,6 +44,11 @@ public class Director : Node
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
+        if (time > 5f)
+        {
+            EnemyWave?.Invoke(this, new Wave(5, "spider", "truck", "car"));
+            time = 0f;
+        }
         this.time += delta;
         if (time > 30) this.IntroduceTruck();
         if (time > 120) this.IntroduceCar();
