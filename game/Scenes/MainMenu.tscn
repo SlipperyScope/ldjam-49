@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/SceneScripts/MainMenu.cs" type="Script" id=1]
 [ext_resource path="res://BeautifulArt/Buttons/PressInstructButton.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://BeautifulArt/Buttons/HoverInstructButton.png" type="Texture" id=11]
 [ext_resource path="res://BeautifulArt/Buttons/InstructButton.png" type="Texture" id=12]
 [ext_resource path="res://BeautifulArt/Buttons/PressExitButton.png" type="Texture" id=13]
+[ext_resource path="res://BeautifulArt/Main.png" type="Texture" id=14]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource( 1 )
@@ -62,3 +63,8 @@ texture_hover = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+z_index = -1
+texture = ExtResource( 14 )
