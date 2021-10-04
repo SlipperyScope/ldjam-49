@@ -11,6 +11,9 @@ public enum FiringPattern
 
 public class FireController : Node2D
 {
+    const String GlobalDataPath = "/root/GlobalData";
+    public GlobalData Global { get; private set; } 
+
     const String BulletScenePath = "res://Scenes/Bullet.tscn";
     const String TipPath = "Tip";
 
@@ -78,6 +81,7 @@ public class FireController : Node2D
         Tip = GetNode<Node2D>(TipPath);
         BulletScene = GD.Load<PackedScene>(BulletScenePath);
         Controller = GetParent<TurretController>();
+        Global = GetNode<GlobalData>(GlobalDataPath);
     }
 
     /// <summary>
@@ -105,6 +109,7 @@ public class FireController : Node2D
 
     private void Fire()
     {
+        Global.Shots++;
         foreach (var definition in Projectiles)
         {
             SpawnProjectile(definition);
@@ -131,6 +136,6 @@ public class FireController : Node2D
         projectile.SpriteRotation = rotation;
         projectile.Scale = new Vector2(definition.scale, definition.scale);
         Controller.AddStability(-0.01f);
-
+        Global.Bullets++;
     }
 }

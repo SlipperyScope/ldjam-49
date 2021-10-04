@@ -6,10 +6,12 @@ public class SeaAnemone : Area2D
     const String ExplodePlayerPath = "ExplodeSound";
     const String HitPlayerPath = "HitSound";
     const String ShapePath = "CollisionShape2D";
+    const String GlobalDataPath = "root/GlobalData";
 
     public AudioStreamPlayer2D ExplodePlayer { get; private set; }
     public AudioStreamPlayer2D HitPlayer { get; private set; }
-    public CollisionShape2D Collision { get; private set; } 
+    public CollisionShape2D Collision { get; private set; }
+    public GlobalData Global { get; private set; } 
 
     public Vector2 Velocity { get; private set; }
 
@@ -55,6 +57,7 @@ public class SeaAnemone : Area2D
         ExplodePlayer = GetNode<AudioStreamPlayer2D>(ExplodePlayerPath);
         HitPlayer = GetNode<AudioStreamPlayer2D>(HitPlayerPath);
         Collision = GetNode<CollisionShape2D>(ShapePath);
+        Global = GetNode<GlobalData>(GlobalDataPath);
 
         ExplodePlayer.Connect("finished", this, nameof(Sewercide));
         //Position = NewTarget();
@@ -83,7 +86,8 @@ public class SeaAnemone : Area2D
         {
             case TurretController turret:
                 turret.AddStability(-StabilityCost);
-                Damage(HP);
+                Explode();
+                Global.EnemyHits++;
                 break;
             case SeaAnemone enemy:
                 //Damage(HP);
@@ -115,9 +119,11 @@ public class SeaAnemone : Area2D
     public void Damage(Int32 amount)
     {
         HP -= amount;
+        Global.Hits++;
         if (HP <= 0)
         {
             Explode();
+            Global.Kills++;
         }
     }
 

@@ -14,6 +14,10 @@ config/name="ld-jam"
 run/main_scene="res://Scenes/MainMenu.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+GlobalData="*res://Scripts/GlobalData.cs"
+
 [display]
 
 window/size/width=1920
