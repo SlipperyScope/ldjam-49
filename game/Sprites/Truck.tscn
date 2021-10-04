@@ -27,5 +27,5 @@ animations = [ {
 [node name="Truck" type="AnimatedSprite"]
 rotation = 1.5708
 frames = SubResource( 1 )
-frame = 7
+frame = 11
 playing = true

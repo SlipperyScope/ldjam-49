@@ -4,7 +4,7 @@
 [ext_resource path="res://Scenes/Camera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Turret.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/AttackReducer.cs" type="Script" id=4]
-[ext_resource path="res://Scenes/SeaAnemone.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scripts/EnemySpawner.cs" type="Script" id=5]
 
 [node name="Node2D" type="Node2D"]
 
@@ -19,20 +19,7 @@ AttackReducerPath = NodePath("../AttackReducer")
 [node name="AttackReducer" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="SeaAnemone" parent="." instance=ExtResource( 8 )]
-position = Vector2( 114.376, -188.542 )
-
-[node name="SeaAnemone2" parent="." instance=ExtResource( 8 )]
-position = Vector2( -170.729, -193.032 )
-
-[node name="SeaAnemone3" parent="." instance=ExtResource( 8 )]
-position = Vector2( 368.052, -217.726 )
-
-[node name="SeaAnemone4" parent="." instance=ExtResource( 8 )]
-position = Vector2( -716.246, -197.522 )
-
-[node name="SeaAnemone5" parent="." instance=ExtResource( 8 )]
-position = Vector2( -476.039, -168.338 )
-
-[node name="SeaAnemone6" parent="." instance=ExtResource( 8 )]
-position = Vector2( 702.546, -233.441 )
+[node name="Spawner" type="Node" parent="."]
+script = ExtResource( 5 )
+BackgroundPath = NodePath("../MapSprite")
+TurretPath = NodePath("../Turret")

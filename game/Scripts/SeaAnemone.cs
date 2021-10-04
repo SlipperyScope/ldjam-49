@@ -13,10 +13,22 @@ public class SeaAnemone : Area2D
 
     public Vector2 Velocity { get; private set; }
 
+    /// <summary>
+    /// Enemy move speed in px/s
+    /// </summary>
+    [Export]
     public Single Speed = 400f;
 
+    /// <summary>
+    /// Bullet hits before death
+    [Export]
+    /// </summary>
     public Int32 HP = 4;
 
+    /// <summary>
+    /// Damage to turret on hit
+    [Export]
+    /// </summary>
     public Single StabilityCost = 5f;
 
     public Vector2 TargetLocation
@@ -35,6 +47,9 @@ public class SeaAnemone : Area2D
         AddToGroup("Targetable");
     }
 
+    /// <summary>
+    /// Ready
+    /// </summary>
     public override void _Ready()
     {
         ExplodePlayer = GetNode<AudioStreamPlayer2D>(ExplodePlayerPath);
@@ -42,19 +57,26 @@ public class SeaAnemone : Area2D
         Collision = GetNode<CollisionShape2D>(ShapePath);
 
         ExplodePlayer.Connect("finished", this, nameof(Sewercide));
-        Position = NewTarget();
-        TargetLocation = NewTarget();
+        //Position = NewTarget();
+        //TargetLocation = NewTarget();
     }
 
+    /// <summary>
+    /// Process
+    /// </summary>
     public override void _Process(Single delta)
     {
         Position += Velocity * delta;
-        if (Position.DistanceTo(TargetLocation) < Speed * 2f)
-        {
-           TargetLocation = NewTarget();
-        }
+        //if (Position.DistanceTo(TargetLocation) < Speed * 2f)
+        //{
+        //   TargetLocation = NewTarget();
+        //}
     }
 
+    /// <summary>
+    /// On area entered
+    /// </summary>
+    /// <param name="other">Shape that entered</param>
     private void OnAreaEntered(Area2D other)
     {
         switch (other)
@@ -74,7 +96,7 @@ public class SeaAnemone : Area2D
                 break;
         }
     }
-
+    
     private void OnTargetChanged()
     {
         LookAt(TargetLocation);
@@ -86,6 +108,10 @@ public class SeaAnemone : Area2D
         return GlobalPosition + Velocity * time;
     }
 
+    /// <summary>
+    /// Do damage to enemy HP
+    /// </summary>
+    /// <param name="amount"></param>
     public void Damage(Int32 amount)
     {
         HP -= amount;
@@ -104,12 +130,12 @@ public class SeaAnemone : Area2D
 
     private void Sewercide()
     {
-        //QueueFree();
-        Position = NewTarget();
-        TargetLocation = NewTarget();
-        Visible = true;
-        Collision.CallDeferred("set", "disabled", false);
-        HP = 4;
+        QueueFree();
+        //Position = NewTarget();
+        //TargetLocation = NewTarget();
+        //Visible = true;
+        //Collision.CallDeferred("set", "disabled", false);
+        //HP = 4;
     }
 
     // temp target aquisition
