@@ -65,6 +65,8 @@ public class TurretController : Area2D
     public Single RecoveryRate = 2f;
     public bool Alive = true;
 
+    public RichTextLabel KillText;
+
     public delegate void DedHandler(object sender);
     public event DedHandler DidDed;
 
@@ -84,12 +86,21 @@ public class TurretController : Area2D
         DeadPlayer = GetNode<AudioStreamPlayer>(DeadPlayerPath);
         Base = GetNode<Node2D>(BasePath);
         Gun = GetNode<FireController>(GunPath);
+        KillText = GetNode<RichTextLabel>("KillCount");
         TargetArea = GetNode<Area2D>(TargetAreaPath);
         TargetArea.Connect("area_entered", this, nameof(OnTargetAreaEntered));
         TargetArea.Connect("area_exited", this, nameof(OnTargetAreaExited));
 
         var reducer = GetNode<AttackReducer>(AttackReducerPath);
         reducer.AttackDefinitionUpdated += Reducer_AttackDefinitionUpdated;
+
+
+        var Global = GetNode<GlobalData>("/root/GlobalData");
+        Global.KillIncreased += UpdateKillText;
+    }
+
+    private void UpdateKillText(object sender, OnKillEventArgs evt) {
+        this.KillText.Text = $"Kills: {evt.Kills}";
     }
 
     private void Reducer_AttackDefinitionUpdated(System.Object sender, AttackDefinitionUpdatedArgs e)
