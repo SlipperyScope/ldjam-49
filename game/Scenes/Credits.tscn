@@ -1,22 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://BeautifulArt/Buttons/BackButton.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/SceneScripts/Credits.cs" type="Script" id=2]
 [ext_resource path="res://BeautifulArt/credits.png" type="Texture" id=3]
+[ext_resource path="res://BeautifulArt/Buttons/HoverBackButton.png" type="Texture" id=4]
+[ext_resource path="res://BeautifulArt/Buttons/PressBackButton.png" type="Texture" id=5]
 
 [node name="Credits" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="Back" type="Button" parent="."]
+[node name="Back" type="TextureButton" parent="."]
 margin_left = 36.5103
 margin_top = 23.811
 margin_right = 319.51
 margin_bottom = 127.811
-custom_fonts/font = ExtResource( 1 )
-text = "Back"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 960, 540 )
