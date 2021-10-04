@@ -21,7 +21,7 @@ public class Director : Node
     private GlobalData Global;
     private float time = 0;
     public float SpawnRate = 1; // N per second
-    public float NextSpawn = 1;
+    public float NextSpawn = 0;
 
     private Dictionary<string, bool> Unlocks = new Dictionary<string, bool>();
 
