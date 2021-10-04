@@ -141,7 +141,7 @@ public class SeaAnemone : Area2D
     private void Explode()
     {
         if (DED is true) return;
-        //Visible = false;
+        DED = true;
         Velocity = Vector2.Zero;
         var children = GetChildren();
         foreach (Node2D child in children)
