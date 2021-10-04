@@ -58,6 +58,7 @@ public class EnemySpawner : Node
         Global = GetNode<GlobalData>(GlobalDataPath);
         Director = GetNode<Director>(DirectorPath);
         Director.EnemyWave += OnEnemyWave;
+        Director.EnemySpawn += OnEnemySpawn;
         //Global.KillIncreased += OnKillIncreased;
     }
 
@@ -75,6 +76,9 @@ public class EnemySpawner : Node
     //{
     //    Difficulty = e.Kills / 10;
     //}
+    private void OnEnemySpawn(object sender, PackedScene enemyType) {
+        SpawnSingle(enemyType, GetRandomOffMapLocation() + GetSpawnAreaLocation());
+    }
 
     private void OnEnemyWave(object sender, Wave wave)
     {

@@ -11,16 +11,17 @@ public class Director : Node
         { "car", "res://Scenes/Enemies/CarEnemy.tscn" },
     };
     public delegate void EnemyWaveHandler(object sender, Wave wave);
+    public delegate void EnemySpawnHandler(object sender, PackedScene enemyType);
     public event EnemyWaveHandler EnemyWave;
+    public event EnemySpawnHandler EnemySpawn;
 
-    public float SpawnRate = 1; // N per second
-    public List<string> UnlockedEnemies = new List<string>();
-
-    private 
+    public List<PackedScene> UnlockedEnemies = new List<PackedScene>();
 
     const String GlobalDataPath = "/root/GlobalData";
     private GlobalData Global;
     private float time = 0;
+    public float SpawnRate = 1; // N per second
+    public float NextSpawn = 1;
 
     private Dictionary<string, bool> Unlocks = new Dictionary<string, bool>();
 
@@ -38,31 +39,49 @@ public class Director : Node
             this.MakeEnemyWave(e.Kills);
         };
 
-        this.UnlockedEnemies.Add(Director.E["spider"]);
+        this.UnlockedEnemies.Add(GD.Load<PackedScene>(Director.E["spider"]));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if (time > 5f)
-        {
-            EnemyWave?.Invoke(this, new Wave(5, "spider", "truck", "car"));
-            time = 0f;
-        }
         this.time += delta;
         if (time > 30) this.IntroduceTruck();
         if (time > 120) this.IntroduceCar();
 
-        var maxSpawnRate = 15f; // Per second
-        var initSpawnRate = 1f; 
-        var secondsUntilMax = 180f;
+        if (time > this.NextSpawn) {
+            this.Spawn();
+            this.NextSpawn = this.time + this.ComputeSpawn(this.time);
+        }
 
-        // y = a / (1 + b*e^-kx ), k > 0
-        // This will start slow, speed up, and then slow down again
-        var k = 8f / secondsUntilMax;
-        var b = maxSpawnRate - initSpawnRate;
-        this.SpawnRate = (float)(maxSpawnRate / (1f + b * Math.Pow(Math.E, -k * this.time)));
-        // GD.Print($"{this.time}: {this.SpawnRate}");
+        // Old doodoo. Kept for posterity
+
+        // var maxSpawnRate = 15f; // Per second
+        // var initSpawnRate = 1f;
+        // var secondsUntilMax = 180f;
+
+        // // y = a / (1 + b*e^-kx ), k > 0
+        // // This will start slow, speed up, and then slow down again
+        // var k = 8f / secondsUntilMax;
+        // var b = maxSpawnRate - initSpawnRate;
+        // this.SpawnRate = (float)(maxSpawnRate / (1f + b * Math.Pow(Math.E, -k * this.time)));
+    }
+
+    private void Spawn() {
+        int idx = (int)(GD.Randi() % this.UnlockedEnemies.Count);
+        PackedScene type = this.UnlockedEnemies[idx];
+        EnemySpawn?.Invoke(this, type);
+    }
+
+    private float ComputeSpawn(float time) {
+        // y = a - b*e^0.5cx
+        float a = 1.2f;
+        float b = 0.1f;
+        float c = 0.1f;
+
+        float fastestSpawnRate = 0.1f; // Ten per second
+
+        return Math.Max(fastestSpawnRate, (float)(a - b*Math.Pow(Math.E, 0.5*c*this.time)));
     }
 
     private void MakeEnemyWave(int kills) {
@@ -73,14 +92,14 @@ public class Director : Node
 
     private void IntroduceTruck() {
         if (!this.Unlocks.ContainsKey("truck")) {
-            this.UnlockedEnemies.Add(Director.E["truck"]);
+            this.UnlockedEnemies.Add(GD.Load<PackedScene>(Director.E["truck"]));
             this.Unlocks["truck"] = true;
         }
     }
 
     private void IntroduceCar() {
         if (!this.Unlocks.ContainsKey("car")) {
-            this.UnlockedEnemies.Add(Director.E["car"]);
+            this.UnlockedEnemies.Add(GD.Load<PackedScene>(Director.E["car"]));
             this.Unlocks["car"] = true;
         }
     }
