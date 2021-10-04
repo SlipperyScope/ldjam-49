@@ -86,7 +86,7 @@ public class SeaAnemone : Area2D
                 Damage(HP);
                 break;
             case SeaAnemone enemy:
-                Damage(HP);
+                //Damage(HP);
                 break;
             case Bullet bullet:
                 Damage(1);
