@@ -6,7 +6,7 @@ public class SeaAnemone : Area2D
     const String ExplodePlayerPath = "ExplodeSound";
     const String HitPlayerPath = "HitSound";
     const String ShapePath = "CollisionShape2D";
-    const String GlobalDataPath = "root/GlobalData";
+    const String GlobalDataPath = "/root/GlobalData";
 
     public AudioStreamPlayer2D ExplodePlayer { get; private set; }
     public AudioStreamPlayer2D HitPlayer { get; private set; }

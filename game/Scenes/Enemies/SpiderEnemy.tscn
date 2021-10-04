@@ -7,9 +7,11 @@
 extents = Vector2( 62.6433, 82.842 )
 
 [node name="Enemy" instance=ExtResource( 1 )]
+HP = 2
+StabilityCost = 4.0
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="." index="3" instance=ExtResource( 2 )]
-frame = 1
+frame = 10

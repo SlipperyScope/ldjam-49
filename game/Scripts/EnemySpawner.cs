@@ -3,6 +3,9 @@ using System;
 
 public class EnemySpawner : Node
 {
+    const String GlobalDataPath = "/root/GlobalData";
+    public GlobalData Global { get; private set; }
+
     #region Enemies
     const String SpiderPath = "res://Scenes/Enemies/SpiderEnemy.tscn";
     const String TruckPath = "res://Scenes/Enemies/TruckEnemy.tscn";
@@ -32,12 +35,15 @@ public class EnemySpawner : Node
     public override void _EnterTree()
     {
         Spider = GD.Load<PackedScene>(SpiderPath);
+        Car = GD.Load<PackedScene>(CarPath);
     }
 
     public override void _Ready()
     {
         MapBounds = GetNode<Sprite>(BackgroundPath).GetRect();
-        Turret = GetNode<TurretController>(TurretPath);        
+        Turret = GetNode<TurretController>(TurretPath);
+        Global = GetNode<GlobalData>(GlobalDataPath);
+        Global.KillIncreased += OnKillIncreased;
     }
 
     public override void _Process(Single delta)
@@ -50,19 +56,33 @@ public class EnemySpawner : Node
         }
     }
 
+    private void OnKillIncreased(object sender, OnKillEventArgs e)
+    {
+        Difficulty = e.Kills / 10;
+    }
+
     private void Spawn()
     {
         var SpawnLocation = GetRandomOffMapLocation();
-        switch (Difficulty)
+        if (Difficulty < 5)
         {
-            default:
-                for (Int32 i = (Int32)GD.Randi() % 2 + 3; i > 0; i--)
-                {
-                    SpawnSingle(Spider, SpawnLocation + GetSpawnAreaLocation());
-                }
+            for (Int32 i = (Int32)GD.Randi() % 2 + Difficulty; i > 0; i--)
+            {
+                SpawnSingle(Spider, SpawnLocation + GetSpawnAreaLocation());
+            }
 
-                NextSpawnTime = Time + 4f;
-                break;
+            NextSpawnTime = Time + 4f;
+        }
+        else //if (Difficulty < 10)
+        {
+            for (Int32 i = (Int32)GD.Randi() % 2 + Difficulty / 2; i > 0; i--)
+            {
+                SpawnSingle(Spider, SpawnLocation + GetSpawnAreaLocation());
+            }
+            for (Int32 i = (Int32)GD.Randi() % 1 + Difficulty / 4; i > 0; i--)
+            {
+                SpawnSingle(Car, SpawnLocation + GetSpawnAreaLocation());
+            }
         }
     }
 

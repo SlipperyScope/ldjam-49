@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Enemies/EnemyBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sprites/CarRobot.tscn" type="PackedScene" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 44.2012, 31.6299 )
+
+[node name="Enemy" instance=ExtResource( 1 )]
+Speed = 600.0
+HP = 5
+StabilityCost = 8.0
+
+[node name="CarRobot" parent="." index="0" instance=ExtResource( 2 )]
+position = Vector2( 9.35443, 0 )
+frame = 2
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( 5.34538, 0.222725 )
+shape = SubResource( 1 )
