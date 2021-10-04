@@ -13,7 +13,7 @@ StabilityCost = 8.0
 
 [node name="CarRobot" parent="." index="0" instance=ExtResource( 2 )]
 position = Vector2( 9.35443, 0 )
-frame = 0
+frame = 3
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2( 5.34538, 0.222725 )

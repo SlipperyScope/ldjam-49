@@ -8,6 +8,9 @@ public class SeaAnemone : Area2D
     const String ShapePath = "CollisionShape2D";
     const String GlobalDataPath = "/root/GlobalData";
 
+    private Boolean ExplosionSoundFinished = false;
+    private Boolean ExplosionAnimationFinished = false;
+
     public AudioStreamPlayer2D ExplodePlayer { get; private set; }
     public AudioStreamPlayer2D HitPlayer { get; private set; }
     public CollisionShape2D Collision { get; private set; }
@@ -59,7 +62,8 @@ public class SeaAnemone : Area2D
         Collision = GetNode<CollisionShape2D>(ShapePath);
         Global = GetNode<GlobalData>(GlobalDataPath);
 
-        ExplodePlayer.Connect("finished", this, nameof(Sewercide));
+        ExplodePlayer.Connect("finished", this, nameof(OnExplosionSoundFinished));
+
         //Position = NewTarget();
         //TargetLocation = NewTarget();
     }
@@ -135,9 +139,56 @@ public class SeaAnemone : Area2D
 
     private void Explode()
     {
-        Visible = false;
+        //Visible = false;
+        Velocity = Vector2.Zero;
+        var children = GetChildren();
+        foreach (Node2D child in children)
+        {
+            if (child.Name != "Explosion")
+            {
+                child.Visible = false;
+            }
+            if (child.Name == "Explosion" && child is AnimatedSprite explosion)
+            {
+                explosion.Visible = true;
+                explosion.Connect("animation_finished", this, nameof(OnExplosionAnimationFinished));
+                explosion.Frame = 0;
+                explosion.Play();
+            }
+        }
         Collision.CallDeferred("set", "disabled", true);
         ExplodePlayer.Play(0.1f);
+    }
+
+    private void OnExplosionAnimationFinished()
+    {
+        if (ExplosionSoundFinished is true)
+        {
+            Sewercide();
+        }
+        else
+        {
+            ExplosionAnimationFinished = true;
+        }
+        foreach (Node2D child in GetChildren())
+        {
+            if (child.Name == "Explosion" && child is AnimatedSprite explosion)
+            {
+                explosion.Visible = false;
+            }
+        }
+    }
+
+    private void OnExplosionSoundFinished()
+    {
+        if (ExplosionAnimationFinished is true)
+        {
+            Sewercide();
+        }
+        else
+        {
+            ExplosionSoundFinished = true;
+        }
     }
 
     private void Sewercide()
