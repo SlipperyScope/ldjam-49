@@ -10,9 +10,13 @@ public class TurretController : Area2D
     const String GunPath = "Gun";
     const String OuchPlayerPath = "Ouch";
     const String DeadPlayerPath = "Dead";
-
     public AudioStreamPlayer OuchPlayer { get; private set; }
     public AudioStreamPlayer DeadPlayer { get; private set; }
+    [Export]
+    private NodePath TargetAreaPath = "TargetArea";
+    public Area2D TargetArea { get; private set; }
+    public List<SeaAnemone> TargetableEnemies { get; private set; } = new List<SeaAnemone>();
+
     /// <summary>
     /// Path to attackr educer
     /// </summary>
@@ -44,7 +48,7 @@ public class TurretController : Area2D
     /// <summary>
     /// Current Target
     /// </summary>
-    private Node2D Target;
+    private SeaAnemone Target;
 
     public Single MaxStability = 100f;
     public Single CurrentStability = 40f;
@@ -59,7 +63,7 @@ public class TurretController : Area2D
     /// Ready
     /// </summary>
     public override void _Ready()    {        RotationSpeed = (Single)(RotationSpeed * Math.PI / 180f);
-        OuchPlayer = GetNode<AudioStreamPlayer>(OuchPlayerPath);        DeadPlayer = GetNode<AudioStreamPlayer>(DeadPlayerPath);        Base = GetNode<Node2D>(BasePath);        Gun = GetNode<FireController>(GunPath);        var reducer = GetNode<AttackReducer>(AttackReducerPath);        reducer.AttackDefinitionUpdated += Reducer_AttackDefinitionUpdated;    }    private void Reducer_AttackDefinitionUpdated(System.Object sender, AttackDefinitionUpdatedArgs e)    {        var definition = e.Definition;        Gun.BurstSize = definition.burstCount;        Gun.BurstInterval = definition.burstDelay;        Gun.BurstCooldown = definition.shotDelay;        Gun.DoHorn = definition.canHasHorn;        Gun.Projectiles = definition.projectiles;    }    /// <summary>    /// Process    /// </summary>
+        OuchPlayer = GetNode<AudioStreamPlayer>(OuchPlayerPath);        DeadPlayer = GetNode<AudioStreamPlayer>(DeadPlayerPath);        Base = GetNode<Node2D>(BasePath);        Gun = GetNode<FireController>(GunPath);        TargetArea = GetNode<Area2D>(TargetAreaPath);        TargetArea.Connect("area_entered", this, nameof(OnTargetAreaEntered));        TargetArea.Connect("area_exited", this, nameof(OnTargetAreaExited));        var reducer = GetNode<AttackReducer>(AttackReducerPath);        reducer.AttackDefinitionUpdated += Reducer_AttackDefinitionUpdated;    }    private void Reducer_AttackDefinitionUpdated(System.Object sender, AttackDefinitionUpdatedArgs e)    {        var definition = e.Definition;        Gun.BurstSize = definition.burstCount;        Gun.BurstInterval = definition.burstDelay;        Gun.BurstCooldown = definition.shotDelay;        Gun.DoHorn = definition.canHasHorn;        Gun.Projectiles = definition.projectiles;    }    /// <summary>    /// Process    /// </summary>
     public override void _Process(Single delta)
     {
         Aim(delta);
@@ -71,6 +75,38 @@ public class TurretController : Area2D
         if (other is SeaAnemone)
         {
             OuchPlayer.Play(0.1f);
+        }
+    }
+
+    /// <summary>
+    /// On target area entered
+    /// </summary>
+    /// <param name="other">Body entering target area</param>
+    private void OnTargetAreaEntered(Area2D other)
+    {
+        if (other is SeaAnemone enemy)
+        {
+            TargetableEnemies.Add(enemy);
+            if (TargetableEnemies.Count == 1)
+            {
+                Gun.DoFire = true;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// On target area exited
+    /// </summary>
+    /// <param name="other">body exiting target area</param>
+    private void OnTargetAreaExited(Area2D other)
+    {
+        if (other is SeaAnemone enemy)
+        {
+            TargetableEnemies.Remove(enemy);
+            if (TargetableEnemies.Count == 0)
+            {
+                Gun.DoFire = false;
+            }
         }
     }
 
@@ -90,16 +126,16 @@ public class TurretController : Area2D
         };
 
         // TODO: Make this for not temp enemies
-        if (Target as TempEnemy is null && Target as SeaAnemone is null) return;
+        if (Target is null) return;
 
-        var forecastPosition = (Target as TempEnemy)?.Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / (Gun.BulletSpeed * 0.8f)) ?? (Target as SeaAnemone)?.Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / (Gun.BulletSpeed * 0.8f)) ?? Target.Position;
+        var forecastPosition = Target.GlobalPosition;//(Target as TempEnemy)?.Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / (Gun.BulletSpeed * 0.8f)) ?? (Target as SeaAnemone)?.Forecast(Gun.Tip.GlobalPosition.DistanceTo(Target.GlobalPosition) / (Gun.BulletSpeed * 0.8f)) ?? Target.Position;
 
         var angle = Gun.GetAngleTo(forecastPosition);
         var frameRotation = RotationSpeed * delta;
 
         if (LimitRotationSpeed is true && Math.Abs(angle) > frameRotation)
         {
-            Gun.Rotation -= angle < 0f ? frameRotation : -frameRotation;
+            Gun.Rotation += angle < 0f ? -frameRotation : frameRotation;
         }
         else
         {
@@ -129,8 +165,9 @@ public class TurretController : Area2D
 
     public void AddStability(Single value)    {        CurrentStability += value;        if (CurrentStability <= 0 && Visible is true)        {            GD.Print($"omglookimdead");            GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set", "disabled", true);            DeadPlayer.Play(0.1f);            Visible = false;        }        else if (CurrentStability > MaxStability)        {            CurrentStability = MaxStability;        }        //GD.Print($"hit");    }
     /// <summary>    /// Nearest target    /// </summary>    /// <returns>Target nearest to the turret</returns>
-    private Node2D NearestTarget() =>
-        GetTargets().FindAll(target => target.Visible is true).OrderBy(target => GlobalPosition.DistanceSquaredTo(target.GlobalPosition)).FirstOrDefault();
+    private SeaAnemone NearestTarget() =>
+        TargetableEnemies.OrderBy(e => GlobalPosition.DistanceSquaredTo(e.GlobalPosition)).FirstOrDefault();
+        //GetTargets().FindAll(target => target.Visible is true).OrderBy(target => GlobalPosition.DistanceSquaredTo(target.GlobalPosition)).FirstOrDefault();
 
     private void Recover(Single delta) {
         if (this.CurrentStability < this.MaxStability) {

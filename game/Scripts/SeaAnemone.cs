@@ -109,7 +109,13 @@ public class SeaAnemone : Area2D
 
     public Vector2 Forecast(Single time)
     {
-        return GlobalPosition + Velocity * time;
+        var projection = GlobalPosition + Velocity * time;
+        var distanceToTarget = GlobalPosition.DistanceSquaredTo(TargetLocation);
+        if (projection.LengthSquared() > distanceToTarget)
+        {
+            projection = GlobalPosition;
+        }
+        return projection;
     }
 
     /// <summary>
