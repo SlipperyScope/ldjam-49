@@ -32,9 +32,9 @@ __meta__ = {
 
 [node name="Credits" type="Button" parent="."]
 margin_left = 458.482
-margin_top = 524.407
+margin_top = 523.072
 margin_right = 1469.48
-margin_bottom = 628.407
+margin_bottom = 627.072
 rect_pivot_offset = Vector2( 617.074, 243.872 )
 custom_fonts/font = ExtResource( 2 )
 text = "Credits"
