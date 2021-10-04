@@ -71,6 +71,11 @@ public class FireController : Node2D
     /// </summary>
     public Boolean DoHorn { get; set; } = false;
 
+    /// <summary>
+    /// Whether turret should fire
+    /// </summary>
+    public Boolean DoFire { get; set; } = false;
+
     public List<ProjectileDefinition> Projectiles;
 
     /// <summary>
@@ -91,7 +96,7 @@ public class FireController : Node2D
     {
         Time += delta;
 
-        if (Time > NextShotTime)
+        if (DoFire is true && Time > NextShotTime)
         {
             Fire();
             NumberInBurst++;
@@ -135,7 +140,7 @@ public class FireController : Node2D
         projectile.Position = Tip.GlobalPosition + definition.initPosition.Rotated(rotation);
         projectile.SpriteRotation = rotation;
         projectile.Scale = new Vector2(definition.scale, definition.scale);
-        Controller.AddStability(-0.01f);
+        Controller.AddStability(-definition.cost);
         Global.Bullets++;
     }
 }

@@ -7,6 +7,7 @@
 extents = Vector2( 62.6433, 82.842 )
 
 [node name="Enemy" instance=ExtResource( 1 )]
+Speed = 100.0
 HP = 2
 StabilityCost = 4.0
 
@@ -14,4 +15,4 @@ StabilityCost = 4.0
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="." index="3" instance=ExtResource( 2 )]
-frame = 10
+frame = 0
